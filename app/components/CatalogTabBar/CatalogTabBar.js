@@ -1,102 +1,70 @@
-import React, { Component } from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, ScrollView, TouchableOpacity, Image, Text} from 'react-native';
 import {TextButton} from '../elements';
-import PropTypes from 'prop-types';
 import styles from './style';
 
-export default class CatalogTabBar extends Component {
-
-  static propTypes = {
-    // Callbacks for click events
-    // Contains navigation logic passed through the navigator when
-    //  defined in config/router.js
-    onButtonPress: PropTypes.func.isRequired,
-    onBackPress: PropTypes.func.isRequired,
-  }
-
-  // State of the CatalogTabBar
-  state = {
-    // Either AllDrinks, Beers, Spirits, Cocktails, Shots, Specials
-    // Used to set active Tab style and disallow naviating from
-    // the same screen to the same screen which crashes the app
-    activeTab : 'AllDrinks',
-  }
+export default function CatalogTabBar(props) {
+  // Array of possible labels
+  // Mapped over to create TextButton components for each label
+  const possibleLabels = [
+    'AllDrinks',
+    'Beers',
+    'Spirits',
+    'Cocktails',
+    'Shots',
+    'Specials',
+  ];
+  // State hook
+  const [activeTab, setActiveTab] = useState('AllDrinks');
 
   /**
    * Handles presses on the buttons of the CatalogTabBar
-   * @param {[type]} label Label of pressed button
+   * @param {[string]} label Label of pressed button
    */
-  handlePress = (label) => {
-    if (this.state.activeTab!==label) {
-      // Update state and execute naviagtion callback
-      this.setState({activeTab:label}, () => {
-        // Callback that handles navigation
-        this.props.onButtonPress(label);
-      });
-    }
-  }
+  const handlePress = label => setActiveTab(label);
+
+  // React effect hook
+  useEffect(() => {
+    props.onButtonPress(activeTab);
+  }, [activeTab, props]);
 
   /**
    *
    * @return {[View]}
    */
-  render() {
-    return (
-      <View>
-        <View style={styles.optionsContainer}>
-          <TouchableOpacity
-            style={styles.backButtonContainer}
-            activeOpacity={0.5}
-            onPress={()=>{this.props.onBackPress();}}
-          >
-            <Image
-              style={styles.backIcon}
-              source={require('../images/back-arrow-blue.png')}
-            />
-            <Text style={styles.backButtonText}> Details </Text>
-          </TouchableOpacity>
-          {/*Hor ScrollView for catalog options*/}
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+  return (
+    <View>
+      <View style={styles.optionsContainer}>
+        <TouchableOpacity
+          style={styles.backButtonContainer}
+          activeOpacity={0.5}
+          onPress={() => props.onBackPress()}>
+          <Image
+            style={styles.backIcon}
+            source={require('../images/back-arrow-blue.png')}
+          />
+          <Text style={styles.backButtonText}> Details </Text>
+        </TouchableOpacity>
+
+        {/*Hor ScrollView for catalog options*/}
+        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+          {/*Generate TextButton component for each label*/}
+          {possibleLabels.map((item, index) => (
             <TextButton
-              containerStyle={this.state.activeTab==='AllDrinks'?styles.ActiveButton:styles.OptionButton}
-              textStyle={this.state.activeTab==='AllDrinks'?styles.ActiveText:styles.OptionButtonText}
-              onButtonPress={()=>{this.handlePress('AllDrinks');}}
-              title={'ALL DRINKS'}
+              key={index}
+              containerStyle={
+                activeTab === item ? styles.ActiveButton : styles.OptionButton
+              }
+              textStyle={
+                activeTab === item ? styles.ActiveText : styles.OptionButtonText
+              }
+              onButtonPress={() => handlePress(item)}
+              title={item.toUpperCase()}
             />
-            <TextButton
-              containerStyle={this.state.activeTab==='Beers'?styles.ActiveButton:styles.OptionButton}
-              textStyle={this.state.activeTab==='Beers'?styles.ActiveText:styles.OptionButtonText}
-              onButtonPress={()=>{this.handlePress('Beers');}}
-              title={'BEERS'}
-            />
-            <TextButton
-              containerStyle={this.state.activeTab==='Spirits'?styles.ActiveButton:styles.OptionButton}
-              textStyle={this.state.activeTab==='Spirits'?styles.ActiveText:styles.OptionButtonText}
-              onButtonPress={()=>{this.handlePress('Spirits');}}
-              title={'SPIRITS'}
-            />
-            <TextButton
-              containerStyle={this.state.activeTab==='Cocktails'?styles.ActiveButton:styles.OptionButton}
-              textStyle={this.state.activeTab==='Cocktails'?styles.ActiveText:styles.OptionButtonText}
-              onButtonPress={()=>{this.handlePress('Cocktails');}}
-              title={'COCKTAILS'}
-            />
-            <TextButton
-              containerStyle={this.state.activeTab==='Shots'?styles.ActiveButton:styles.OptionButton}
-              textStyle={this.state.activeTab==='Shots'?styles.ActiveText:styles.OptionButtonText}
-              onButtonPress={()=>{this.handlePress('Shots');}}
-              title={'SHOTS'}
-            />
-            <TextButton
-              containerStyle={this.state.activeTab==='Specials'?styles.ActiveButton:styles.OptionButton}
-              textStyle={this.state.activeTab==='Specials'?styles.ActiveText:styles.OptionButtonText}
-              onButtonPress={()=>{this.handlePress('Specials');}}
-              title={'SPECIALS'}
-            />
-          </ScrollView>
-        </View>
-        <View style={styles.seperator}></View>
+          ))}
+        </ScrollView>
       </View>
-    );
-  }
+      <View style={styles.seperator} />
+    </View>
+  );
 }

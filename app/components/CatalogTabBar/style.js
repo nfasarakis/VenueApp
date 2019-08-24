@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 5,
     marginRight: 10,
-    backgroundColor: '#6BA7EC'
+    backgroundColor: '#6BA7EC',
   },
   OptionButtonText: {
     textAlign: 'center',
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     fontFamily: 'System',
     color: 'white',
-  }
+  },
 });
 
 export default styles;
