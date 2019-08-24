@@ -46,12 +46,15 @@ const styles = StyleSheet.create({
     paddingBottom: 15, //Like agesBarContainer-2
   },
   agesBarContainer: {
-    flex:1,
+    flex: 1,
     paddingBottom: 15,
+  },
+  removeBottomPadding: {
+    paddingBottom: 0,
   },
   ageBarMen: {
     borderBottomWidth: 5,
-    borderBottomColor: '#6BA7EC'
+    borderBottomColor: '#6BA7EC',
   },
   ageBarWomen: {
     borderBottomWidth: 5,
@@ -60,13 +63,22 @@ const styles = StyleSheet.create({
   vertBarContainer: {
     flexDirection: 'row',
     position: 'absolute',
-    top: 0, left: 0, right: 0, bottom: 0,
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
   vertBar: {
     flex: 4,
     borderLeftWidth: 1,
     borderLeftColor: 'rgb(209,204,204)',
     opacity: 0.2,
+  },
+  vertBarBold: {
+    flex: 4,
+    borderLeftWidth: 1,
+    borderLeftColor: 'rgb(209,204,204)',
+    opacity: 1,
   },
   toggleTextContainer: {
     flexDirection: 'row',
@@ -94,7 +106,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginRight: 10,
     marginLeft: 10,
-  }
+  },
 });
 
 export default styles;
