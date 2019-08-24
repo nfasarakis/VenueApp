@@ -1,67 +1,51 @@
-import React, { Component } from 'react';
-import {View, Text, Image, TouchableOpacity, Animated, Platform, UIManager, LayoutAnimation} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  Platform,
+  UIManager,
+  LayoutAnimation,
+} from 'react-native';
 import {TextButton} from '../../elements';
 import PropTypes from 'prop-types';
 import styles from './style';
 
+//PropTypes for component About
+About.propTypes = {
+  // A JSON formated store/venue to display
+  venue: PropTypes.object.isRequired,
+  // Callback for press events on Catalog button
+  onCatalogPress: PropTypes.func.isRequired,
+  // Callback for press events on Offer button
+  onOfferPress: PropTypes.func.isRequired,
+};
 
-export default class About extends Component {
+export default function About(props) {
+  // Configure LayoutAnimation
+  LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
 
-  static propTypes = {
-    // A JSON formated store/venue to display
-    venue: PropTypes.object.isRequired,
-    // Callback for press events on Catalog button
-    onCatalogPress: PropTypes.func.isRequired,
-    // Callback for press events on Offer button
-    onOfferPress: PropTypes.func.isRequired,
-  }
+  // React hook for state: posible values are "About, Location, Music or Drinks"
+  // Use to determine what description contents to show
+  const [activeTab, setActiveTab] = useState('about');
 
-  // State of the About component
-  state = {
-    // Either About, Location, Music or Drinks
-    // Use to determine what description contents to show
-    activeTab: 'about',
-  }
+  // React Effect hook
+  // Sets up LayoutAnimation for android when component mounts
+  useEffect(() => {
+    // LayoutAnimation: Automatically animates views to their new positions when the next layout happens.
+    // Enable under Android
+    if (Platform.OS === 'android') {
+      UIManager.setLayoutAnimationEnabledExperimental &&
+        UIManager.setLayoutAnimationEnabledExperimental(true);
+    }
+  }, []); // Run only on mount
 
-  /**
-   * Fades in/Animates the description by animating it's Yscale
-   * from 0 to 1 over a period of 250 ms
-   */
-  fadeInActiveTab = () => {
-    Animated.timing(
-      this.viewScale,
-      {
-        toValue: 1,
-        duration: 250,
-      }
-    ).start();
-  }
-
-  /**
-   * Fades out/ Animates the description by animating it's Yscale
-   * from 1 to 0 over a period of 250ms
-   *
-   * Sets the state with the new description to show after animation completes
-   * The setState call receives a callback that then fades in the new description
-   * via a fadeInActiveTab() call
-   * @param  {[String]} tabname String with which to set the new state
-   */
-  fadeOutActiveTab = (tabname) => {
-    Animated.timing(
-      this.viewScale,
-      {
-        toValue: 0,
-        duration: 250,
-      }
-    ).start(()=>{
-      // timing callback
-      this.setState({activeTab: tabname},()=>{
-        // setState callback
-        LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
-        this.fadeInActiveTab();
-      });
-    });
-  }
+  // React effect hook
+  // Each time an update is triggered via state change, set the LayoutAnimation
+  useEffect(() => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+  }, [activeTab]);
 
   /**
    * Maps possible state values to <Text> components used as a description
@@ -70,167 +54,140 @@ export default class About extends Component {
    * corresponding to the possible state values
    * @return {[Text]} Text component corresponding to state values
    */
-  generateDescription = () => {
+  const generateDescription = () => {
     return {
-      'about': <Text style={styles.description}>
-        Fantastic interior design and open air roof. Good for
-        coffee and snacks. Friendly staff and unique cocktails.
-        {'\n'}
-        Open: {this.props.venue.time}
-      </Text>,
-      'location': <Text style={styles.description}>
-        Venue {this.props.venue.name} is located at {this.props.venue.address} and
-        is open at {this.props.venue.time}
-      </Text>,
-      'music': this.props.venue.music
-        ? <Text style={styles.description}>
-            Venue {this.props.venue.name} usually plays {this.props.venue.music.join(', ')}
+      about: (
+        <Text style={styles.description}>
+          Fantastic interior design and open air roof. Good for coffee and
+          snacks. Friendly staff and unique cocktails. {'\n'} Open:{' '}
+          {props.venue.time}{' '}
         </Text>
-        : <Text style={styles.description}>
-            The owner of {this.props.venue.name} has not specified what music
-            plays
-        </Text>,
-      'drinks':<Text style={styles.description}>
-        Venue {this.props.venue.name} serves Spirits, Beers, Cocktails and
-        <Text style={{color:'#6BA7EC'}}>
-          +7 more
-        </Text>.
-        See catalog for details.
-      </Text>
+      ),
+      location: (
+        <Text style={styles.description}>
+          Venue {props.venue.name} is located at {props.venue.address}
+          and is open at {props.venue.time}
+        </Text>
+      ),
+      music: props.venue.music ? (
+        <Text style={styles.description}>
+          Venue {props.venue.name} usually plays {props.venue.music.join(', ')}
+        </Text>
+      ) : (
+        <Text style={styles.description}>
+          The owner of {props.venue.name} has not specified what music plays
+        </Text>
+      ),
+      drinks: (
+        <Text style={styles.description}>
+          Venue {props.venue.name} serves Spirits, Beers, Cocktails and
+          <Text style={styles.coloredSubtext}> +7 more </Text>. See catalog for
+          details.
+        </Text>
+      ),
     };
-  }
+  };
 
   /**
-   * Lifecycle method: executes before first render()
-   */
-  componentWillMount() {
-    // Enable LayoutAnimation under Android
-    if (Platform.OS === 'android') {
-      UIManager.setLayoutAnimationEnabledExperimental &&
-      UIManager.setLayoutAnimationEnabledExperimental(true);
-    }
-  }
-
-  /**
-   * Lyfecycle method: invoked before a mounted component receives new props
-   * We use this to reset the state to default values when the props change
-   *
-   * This is for the case where we navigate to another detail view within a detail view
-   * Since the virtual dom doesnt change, react doesnt unmount the component
-   * A component that doesnt get unmounted remembers state
-   * Therefore we manually reset the state to it's default value
-   */
-  componentWillReceiveProps(nextProps) {
-    // if the component received new props
-    if (this.props!==nextProps) {
-      // reset the state
-      this.setState({activeTab: 'about'});
-    }
-  }
-
-  // Initialize the Yscale of the description to be animated
-  viewScale = new Animated.Value(1);
-
-  /**
-   * [Renders a View component representing the About component
+   * [Returns a View component representing the About component
    * @return {[View]} [View representing the about component]
    */
-  render() {
-    return (
-      <View style={styles.container}>
+  return (
+    <View style={styles.container}>
+      {/*About section heading*/}
+      <Text style={styles.heading}> About this place </Text>
 
-        {/*About section heading*/}
-        <Text style={styles.heading}>
-          About this place
-        </Text>
+      {/*About section offer iff it exists*/}
+      <Text style={styles.offer}> OFFER: SECOND DRINK IS FREE!</Text>
 
-        {/*About section offer iff it exists*/}
-        <Text style={styles.offer}>
-          OFFER: SECOND DRINK IS FREE!
-        </Text>
-
-        {/*About section display options*/}
-        <View style={styles.optionsContainer}>
-
-          <TouchableOpacity
-            style={styles.optionItem}
-            onPress={()=>this.fadeOutActiveTab('about')}>
-            <Image
-              style={styles.optionIcon}
-              source={require('../../images/music-note.png')}
-            />
-            <Text
-              style={[styles.optionTitle, this.state.activeTab==='about'&&styles.active]}>
-              About
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.optionItem}
-            onPress={()=>this.fadeOutActiveTab('location')}>
-            <Image
-              style={styles.optionIcon}
-              source={require('../../images/music-note.png')}
-            />
-            <Text
-              style={[styles.optionTitle, this.state.activeTab==='location'&&styles.active]}>
-              Location
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.optionItem}
-            onPress={()=>this.fadeOutActiveTab('music')}>
-            <Image
-              style={styles.optionIcon}
-              source={require('../../images/music-note.png')}
-            />
-            <Text
-              style={[styles.optionTitle, this.state.activeTab==='music'&&styles.active]}>
-              Music
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[styles.optionItem, styles.optionItemLastChild]}
-            onPress={()=>this.fadeOutActiveTab('drinks')}>
-            <Image
-              style={styles.optionIcon}
-              source={require('../../images/music-note.png')}
-            />
-            <Text
-              style={[styles.optionTitle, this.state.activeTab==='drinks'&&styles.active]}>
-              Drinks
-            </Text>
-          </TouchableOpacity>
-
-        </View>
-
-        {/*About section description*/}
-        <Animated.View style={{transform: [{ scaleY: this.viewScale }]}}>
-          {this.generateDescription()[this.state.activeTab]}
-        </Animated.View>
-
-        {/*Catalog and offer buttons*/}
-        <View style={styles.buttonsContainer}>
-          <TextButton
-            containerStyle={styles.AboutButton}
-            textStyle={styles.AboutButtonText}
-            onButtonPress={this.props.onCatalogPress}
-            title={'SEE CATALOG'}
+      {/*About section display options*/}
+      <View style={styles.optionsContainer}>
+        <TouchableOpacity
+          style={styles.optionItem}
+          onPress={() => setActiveTab('about')}>
+          <Image
+            style={styles.optionIcon}
+            source={require('../../images/music-note.png')}
           />
-          <TextButton
-            containerStyle={styles.AboutButton}
-            textStyle={styles.AboutButtonText}
-            onButtonPress={this.props.onOfferPress}
-            title={'OFFER CODE'}
+          <Text
+            style={[
+              styles.optionTitle,
+              activeTab === 'about' && styles.active,
+            ]}>
+            About
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.optionItem}
+          onPress={() => setActiveTab('location')}>
+          <Image
+            style={styles.optionIcon}
+            source={require('../../images/music-note.png')}
           />
-        </View>
+          <Text
+            style={[
+              styles.optionTitle,
+              activeTab === 'location' && styles.active,
+            ]}>
+            Location
+          </Text>
+        </TouchableOpacity>
 
-        {/*Seperator line*/}
-        <View style={styles.seperator}></View>
+        <TouchableOpacity
+          style={styles.optionItem}
+          onPress={() => setActiveTab('music')}>
+          <Image
+            style={styles.optionIcon}
+            source={require('../../images/music-note.png')}
+          />
+          <Text
+            style={[
+              styles.optionTitle,
+              activeTab === 'music' && styles.active,
+            ]}>
+            Music
+          </Text>
+        </TouchableOpacity>
 
+        <TouchableOpacity
+          style={[styles.optionItem, styles.optionItemLastChild]}
+          onPress={() => setActiveTab('drinks')}>
+          <Image
+            style={styles.optionIcon}
+            source={require('../../images/music-note.png')}
+          />
+          <Text
+            style={[
+              styles.optionTitle,
+              activeTab === 'drinks' && styles.active,
+            ]}>
+            Drinks
+          </Text>
+        </TouchableOpacity>
       </View>
-    );
-  }
+
+      {/*About section description*/}
+      <View>{generateDescription()[activeTab]}</View>
+
+      {/*Catalog and offer buttons*/}
+      <View style={styles.buttonsContainer}>
+        <TextButton
+          containerStyle={styles.AboutButton}
+          textStyle={styles.AboutButtonText}
+          onButtonPress={props.onCatalogPress}
+          title={'SEE CATALOG'}
+        />
+        <TextButton
+          containerStyle={styles.AboutButton}
+          textStyle={styles.AboutButtonText}
+          onButtonPress={props.onOfferPress}
+          title={'OFFER CODE'}
+        />
+      </View>
+
+      {/*Seperator line*/}
+      <View style={styles.seperator} />
+    </View>
+  );
 }

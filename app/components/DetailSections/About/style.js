@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   buttonsContainer: {
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   AboutButton: {
     borderColor: '#6BA7EC',
@@ -98,6 +98,9 @@ const styles = StyleSheet.create({
     fontSize: 8,
     fontWeight: '600',
     fontFamily: 'System',
+    color: '#6BA7EC',
+  },
+  coloredSubtext: {
     color: '#6BA7EC',
   },
 });

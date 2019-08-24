@@ -5,5 +5,10 @@ import TallSlimCard from './TallSlimCard';
 import TopTab from './TopTab';
 import LoadingIcon from './LoadingIcon';
 
-
-export {VerticalListCard, HorizontalListCard, TallSlimCard, TopTab, LoadingIcon};
+export {
+  VerticalListCard,
+  HorizontalListCard,
+  TallSlimCard,
+  TopTab,
+  LoadingIcon,
+};
