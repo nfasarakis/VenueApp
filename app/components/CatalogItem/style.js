@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#CDCBCB',
     marginTop: 15,
     marginBottom: 15,
-  }
+  },
 });
 
 export default styles;
