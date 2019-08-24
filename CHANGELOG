@@ -1,0 +1,19 @@
+CHANGELOG
+
+- Updated react-navigation to v3
+
+CSS
+- Changed Width from "100%-10" to "100%" in vertFlatListItems of style files of discover/visited/offers/Favorites Screens
+because of error that wasnt present in eralier versions of react native
+
+
+JSON AND IMAGES FROM LOCAL STORAGE OPTION FOR DEMO
+- Added option to use venues json from local storage in util/ajax
+- Edited components/HorizontalListCard and components/VerticalListCard to allow loading store images locally via
+  displayMainImage_local funct and displayMainImage_url funct.
+- Edited components/TallSlimCard to allow loading store images locally via displayMainImage_local funct
+  and displayMainImage_url funct.
+- Edited components/MapPreview to allow loading store images locally via displayMainImage_local funct
+  and displayMainImage_url funct.
+- Edited components/DetailSections/MainImage to allow loading store images locally via displayMainImage_local funct
+  and displayMainImage_url funct.
