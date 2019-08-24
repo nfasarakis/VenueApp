@@ -167,6 +167,7 @@ export default class DiscoverScreen extends Component {
           getItemLayout={(data, index) => ({
             length: 172,
             offset: 172 * index,
+            index,
           })}
           renderItem={({item}) => (
             <View style={styles.horFlatListItems}>
@@ -241,6 +242,7 @@ export default class DiscoverScreen extends Component {
             getItemLayout={(data, index) => ({
               length: 210,
               offset: 210 * index,
+              index,
             })}
             renderItem={({item}) => (
               <View style={styles.vertFlatListItems}>
