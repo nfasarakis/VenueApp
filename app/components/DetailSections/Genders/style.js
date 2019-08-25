@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginRight: 10,
     marginLeft: 10,
-  }
+  },
 });
 
 export default styles;
