@@ -1,11 +1,9 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {View, PanResponder, Animated} from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './style';
 
-
 export default class MultiSlider extends Component {
-
   static propTypes = {
     // Additional custom style for the top-level View component in render()
     containerStyle: PropTypes.any,
@@ -21,7 +19,7 @@ export default class MultiSlider extends Component {
     // Used mainly to triger re-renders of elements depending on these values in parent components
     onSliderMinValueUpdate: PropTypes.func.isRequired,
     onSliderMaxValueUpdate: PropTypes.func.isRequired,
-  }
+  };
 
   /**
    * [Lifecycle method. Forbids re-renders caused by parent components.
@@ -31,7 +29,9 @@ export default class MultiSlider extends Component {
    * Used for optimization purposes]
    * @return {[false]}       [Always block updates]
    */
-  shouldComponentUpdate(){return false;}
+  shouldComponentUpdate() {
+    return false;
+  }
 
   /**
    * [Calculates the width of the slider rendered on the screen.
@@ -40,17 +40,21 @@ export default class MultiSlider extends Component {
    * Also used to initialize any values that depend on the Slider component width
    * @param  {[object]} layout [RN variable containing information about the layout of the rendered component]
    */
-  calcSliderWidth = (layout) => {
+  calcSliderWidth = layout => {
     const {width} = layout;
     this.sliderWidth = width;
     /** Hack!
-    * The initial Slider values given in initializePositions() are in absolute coordinates
-    * To transorm them into relative coordinates used by the parent components, we need the Slider component width.
-    * Since the Silder component width is first available here, tranform and update the values
-    */
-    this.props.onSliderMinValueUpdate(this.interpolate(this.sliderAPreviousXpos,15,50));
-    this.props.onSliderMaxValueUpdate(this.interpolate(this.sliderBPreviousXpos,15,50));
-  }
+     * The initial Slider values given in initializePositions() are in absolute coordinates
+     * To transorm them into relative coordinates used by the parent components, we need the Slider component width.
+     * Since the Silder component width is first available here, tranform and update the values
+     */
+    this.props.onSliderMinValueUpdate(
+      this.interpolate(this.sliderAPreviousXpos, 15, 50),
+    );
+    this.props.onSliderMaxValueUpdate(
+      this.interpolate(this.sliderBPreviousXpos, 15, 50),
+    );
+  };
 
   /**
    * [Transform absolute value from [0, sliderWidth] to relative [min,max] range]
@@ -61,9 +65,9 @@ export default class MultiSlider extends Component {
    */
   interpolate = (value, min, max) => {
     // Note: subtracting 20 from sliderWidth since icon takes 20pixels (i.e iconWidth = 20)
-    const bucket = (this.sliderWidth-20)/(max-min);
-    return Math.ceil(value/bucket)+min;
-  }
+    const bucket = (this.sliderWidth - 20) / (max - min);
+    return Math.ceil(value / bucket) + min;
+  };
 
   /**
    * [Initializes the positions on the slider icons and the animated line start and width in the Slider compoment
@@ -77,28 +81,32 @@ export default class MultiSlider extends Component {
     this.sliderAXPos = new Animated.Value(this.sliderAinitXpos);
     this.sliderBXPos = new Animated.Value(this.sliderBinitXpos);
     // Initial width and left position for the line between the slider icons
-    this.lineWidth = new Animated.Value(Math.abs(this.sliderAinitXpos - this.sliderBinitXpos));
-    this.lineStart = new Animated.Value(Math.min(this.sliderAinitXpos, this.sliderBinitXpos));
+    this.lineWidth = new Animated.Value(
+      Math.abs(this.sliderAinitXpos - this.sliderBinitXpos),
+    );
+    this.lineStart = new Animated.Value(
+      Math.min(this.sliderAinitXpos, this.sliderBinitXpos),
+    );
     // Store previous x positions of slider icons
     // Used to update animated values in PanResponder handlers
     this.sliderAPreviousXpos = this.sliderAinitXpos;
     this.sliderBPreviousXpos = this.sliderBinitXpos;
-  }
+  };
 
   handlers = {
     /**
      * [Actives the PanResponder]
      * @return {[boolen]} [true for activating the PanResponder]
-    */
+     */
     onStartShouldSetPanResponder: () => true,
     /**
      * [Handler that fires when gesture start is detected
      * Calls onSliderGestureStart Callback]
-    */
+     */
     onPanResponderGrant: () => {
       this.props.onSliderGestureStart();
     },
-  }
+  };
 
   /**
    * Calculate new position based on the move and check that it doesn't fall
@@ -111,14 +119,14 @@ export default class MultiSlider extends Component {
     let xPos = prev + dx;
     if (xPos <= 0) {
       // We have reached the left end, so restict it
-      xPos=0;
+      xPos = 0;
     }
-    if (xPos >= this.sliderWidth-20) {
+    if (xPos >= this.sliderWidth - 20) {
       // We have reached the right end, so restrict it
-      xPos=this.sliderWidth-20;
+      xPos = this.sliderWidth - 20;
     }
     return xPos;
-  }
+  };
 
   // PanResponder object for left slider icon: corresponds to min slider value
   // Used to track gestures on the slider
@@ -138,13 +146,13 @@ export default class MultiSlider extends Component {
       // Set new values for the position of the slider icon and animated line
       this.sliderAXPos.setValue(xPos);
       this.lineWidth.setValue(Math.abs(xPos - this.sliderBPreviousXpos));
-      this.lineStart.setValue(Math.min(xPos,this.sliderBPreviousXpos));
+      this.lineStart.setValue(Math.min(xPos, this.sliderBPreviousXpos));
 
       /* Execute callback for min slider value update after interpolating results
          Should propably add the min/max interpolation range variables as props,
          so that the this multi slider component is fully reusable
       */
-      this.props.onSliderMinValueUpdate(this.interpolate(xPos,15,50));
+      this.props.onSliderMinValueUpdate(this.interpolate(xPos, 15, 50));
     },
     /**
      * [Handler that fires when gesture end/release is detected
@@ -159,7 +167,7 @@ export default class MultiSlider extends Component {
       this.sliderAPreviousXpos = xPos;
       // Execute callback for end of gesture
       this.props.onSliderGestureEnd();
-    }
+    },
   });
 
   // PanResponder object for right slider icon: corresponds to max slider value
@@ -174,11 +182,10 @@ export default class MultiSlider extends Component {
       // Set new values for the position of the slider icon and animated line
       this.sliderBXPos.setValue(xPos);
       this.lineWidth.setValue(Math.abs(xPos - this.sliderAPreviousXpos));
-      this.lineStart.setValue(Math.min(xPos,this.sliderAPreviousXpos));
+      this.lineStart.setValue(Math.min(xPos, this.sliderAPreviousXpos));
 
       // Execute callback for max slider value update after interpolating results
-      this.props.onSliderMaxValueUpdate(this.interpolate(xPos,15,50));
-
+      this.props.onSliderMaxValueUpdate(this.interpolate(xPos, 15, 50));
     },
     /* Similar to sliderAPanResposnder.onPanResponderRelease */
     onPanResponderRelease: (evt, gestureState) => {
@@ -186,7 +193,7 @@ export default class MultiSlider extends Component {
       this.sliderBPreviousXpos = xPos;
       // Execute callback for end of gesture
       this.props.onSliderGestureEnd();
-    }
+    },
   });
 
   /**
@@ -203,18 +210,17 @@ export default class MultiSlider extends Component {
     this.initializePositions();
     return (
       <View
-        style={[this.props.containerStyle,styles.defaultContainerStyle]}
-        onLayout={(event)=>{this.calcSliderWidth(event.nativeEvent.layout);}}
-      >
-        <View style={styles.horizontalRule}>
-        </View>
+        style={[this.props.containerStyle, styles.defaultContainerStyle]}
+        onLayout={event => this.calcSliderWidth(event.nativeEvent.layout)}>
+        <View style={styles.horizontalRule} />
         <Animated.View
-          style={[styles.animatedLine,
+          style={[
+            styles.animatedLine,
             {borderBottomColor: this.props.lineColor},
             {width: this.lineWidth},
-            {left: this.lineStart}]}
-        >
-        </Animated.View>
+            {left: this.lineStart},
+          ]}
+        />
         <Animated.Image
           {...this.sliderAPanResposnder.panHandlers}
           style={[styles.sliderIconA, {left: this.sliderAXPos}]}

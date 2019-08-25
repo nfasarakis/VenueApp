@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   animatedLine: {
     borderBottomWidth: 1.5,
     top: -1, // Same as horizontalRule border Width
-  }
+  },
 });
 
 export default styles;

@@ -1,11 +1,9 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {View, PanResponder, Animated} from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './style';
 
-
 export default class Slider extends Component {
-
   static propTypes = {
     // Additional custom style for the top-level View component in render()
     containerStyle: PropTypes.any,
@@ -21,17 +19,7 @@ export default class Slider extends Component {
     // Event handler fired when on value updates of the Slider Component
     // Used mainly to triger re-renders of elements depending on these values in parent components
     onSliderValueUpdate: PropTypes.func.isRequired,
-  }
-
-  /**
-   * [Lifecycle method. Forbids re-renders caused by parent components.
-   * This component never re-renders since it depends on animations.
-   * Animations and Animated values bypass the react render() method
-   * hence, we should never need to update this component
-   * Used for optimization purposes]
-   * @return {[false]}       [Always block updates]
-   */
-  shouldComponentUpdate(){return false;}
+  };
 
   /**
    * [Calculates the width of the slider rendered on the screen.
@@ -40,18 +28,18 @@ export default class Slider extends Component {
    * Also used to initialize any values that depend on the Slider component width
    * @param  {[object]} layout [RN variable containing information about the layout of the rendered component]
    */
-  calcSliderWidth = (layout) => {
+  calcSliderWidth = layout => {
     const {width} = layout;
     this.sliderWidth = width;
     /** Hack!
-    * The initial lineWidth values given in initializePositions() depend on the Slider component width
-    * Since the Silder component width is first available here, set the values correcty
-    */
-    this.leftLineWidth.setValue((this.sliderWidth/2)-10);
-    this.rightLineWidth.setValue((this.sliderWidth/2)-10);
-    this.leftLinePreviousWidth = (this.sliderWidth/2)-10;
-    this.rightLinePreviousWidth = (this.sliderWidth/2)-10;
-  }
+     * The initial lineWidth values given in initializePositions() depend on the Slider component width
+     * Since the Silder component width is first available here, set the values correcty
+     */
+    this.leftLineWidth.setValue(this.sliderWidth / 2 - 10);
+    this.rightLineWidth.setValue(this.sliderWidth / 2 - 10);
+    this.leftLinePreviousWidth = this.sliderWidth / 2 - 10;
+    this.rightLinePreviousWidth = this.sliderWidth / 2 - 10;
+  };
 
   /**
    * [Initializes the widths of the lines left and right of the slider icon in the Slider compoment
@@ -69,8 +57,7 @@ export default class Slider extends Component {
     // Used to update animated values in the PanResponder handlers
     this.leftLinePreviousWidth = 500;
     this.rightLinePreviousWidth = 500;
-  }
-
+  };
 
   /**
    * [Calculates new widths of the lines across the icon based on the value of the move gesture
@@ -86,20 +73,20 @@ export default class Slider extends Component {
     let rightWidth = prevRightWidth - dx;
     // Restrict the value to to stay in bounds
     // Keep in mind that the icon width is 20 pixels
-    if (leftWidth<=0) {
+    if (leftWidth <= 0) {
       // We have reached the left end, so restrict left line width
       leftWidth = 0;
       // An set right line width to maximum posible value, i.e the Slider width
-      rightWidth = this.sliderWidth-20;
+      rightWidth = this.sliderWidth - 20;
     }
     if (rightWidth <= 0) {
       // We have reached the right end, so retrict right line width
       rightWidth = 0;
       // An set left line width to maximum posible value, i.e the Slider width
-      leftWidth = this.sliderWidth-20;
+      leftWidth = this.sliderWidth - 20;
     }
     return [leftWidth, rightWidth];
-  }
+  };
 
   // PanResponder object for the slider icon: corresponds to slider value
   // Used to track gestures on the slider
@@ -123,10 +110,12 @@ export default class Slider extends Component {
      * @param  {[object]} gestureState [built-in RN object, containing information about the gesture, see PanResponder docs]
      */
     onPanResponderMove: (evt, gestureState) => {
-
       // Compute new values for widths of lines left and right of the slider icon
-      const [newLeftLineWidth, newRightLineWidth] = this.calcLineWidth(this.leftLinePreviousWidth,
-        this.rightLinePreviousWidth, gestureState.dx);
+      const [newLeftLineWidth, newRightLineWidth] = this.calcLineWidth(
+        this.leftLinePreviousWidth,
+        this.rightLinePreviousWidth,
+        gestureState.dx,
+      );
 
       // Set new values for the left and right line
       this.leftLineWidth.setValue(newLeftLineWidth);
@@ -135,9 +124,8 @@ export default class Slider extends Component {
       // Execute callback for slider value update before transforming the value
       // Value is the percentage of the right line w.r.t the full slider lenght
       const nom = newRightLineWidth;
-      const den = newLeftLineWidth+newRightLineWidth;
-      this.props.onSliderValueUpdate(Math.ceil(nom*100/den));
-
+      const den = newLeftLineWidth + newRightLineWidth;
+      this.props.onSliderValueUpdate(Math.ceil((nom * 100) / den));
     },
     /**
      * [Handler that fires when gesture end/release is detected
@@ -148,16 +136,19 @@ export default class Slider extends Component {
      * @param  {[object]} gestureState [built-in RN object, containing information about the gesture, see PanResponder docs]
      */
     onPanResponderRelease: (evt, gestureState) => {
-
       // Update value of previous line widths
-      [this.leftLinePreviousWidth, this.rightLinePreviousWidth]
-      = this.calcLineWidth(this.leftLinePreviousWidth,
-          this.rightLinePreviousWidth, gestureState.dx);
+      [
+        this.leftLinePreviousWidth,
+        this.rightLinePreviousWidth,
+      ] = this.calcLineWidth(
+        this.leftLinePreviousWidth,
+        this.rightLinePreviousWidth,
+        gestureState.dx,
+      );
 
       // Execute callback for end of gesture
       this.props.onSliderGestureEnd();
-
-    }
+    },
   });
 
   /**
@@ -174,25 +165,26 @@ export default class Slider extends Component {
     return (
       <View
         style={[styles.defaultContainerStyle, this.props.containerStyle]}
-        onLayout={(event)=>{this.calcSliderWidth(event.nativeEvent.layout);}}
-      >
+        onLayout={event => this.calcSliderWidth(event.nativeEvent.layout)}>
         <Animated.View
-          style={[styles.animatedLineLeft,
+          style={[
+            styles.animatedLineLeft,
             {borderBottomColor: this.props.lineColorLeft},
-            {width: this.leftLineWidth}]}
-        >
-        </Animated.View>
+            {width: this.leftLineWidth},
+          ]}
+        />
         <Animated.Image
           {...this.sliderPanResposnder.panHandlers}
           style={styles.sliderIcon}
           source={this.props.source}
         />
         <Animated.View
-          style={[styles.animatedLineRight,
+          style={[
+            styles.animatedLineRight,
             {borderBottomColor: this.props.lineColorRight},
-            {width: this.rightLineWidth}]}
-        >
-        </Animated.View>
+            {width: this.rightLineWidth},
+          ]}
+        />
       </View>
     );
   }

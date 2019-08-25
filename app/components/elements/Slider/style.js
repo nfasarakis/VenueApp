@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     // Align line with icon, keeping in mind that icon height is 20
     position: 'relative',
     bottom: 10, // Same as sliderIcon height / 2
-  }
+  },
 });
 
 export default styles;
