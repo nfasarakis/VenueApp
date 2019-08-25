@@ -1,5 +1,7 @@
 # Venue App Front End Demo
 
+![](https://github.com/nfasarakis/VenueApp/blob/master/App%20Demo%20Screens.jpg)
+
 React Native Venue App - Front End
 
 The Venue App logs & shares near-real time data about how many people are at a given "Venue" while also notifying users about any offers available. That data is crowdsourced directly by all users of the app.
