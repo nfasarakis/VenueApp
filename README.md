@@ -1,6 +1,6 @@
 # React Native Venue App Front End Demo
 
-![](http://nfasarakis.com/GitHub_images/git_Venue.jpg
+![](http://nfasarakis.com/GitHub_images/git_Venue.jpg)
 
 React Native Venue App - Front End
 
