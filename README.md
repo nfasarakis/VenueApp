@@ -15,7 +15,7 @@ The Venue App logs & shares near-real time data about how many people are at a g
 2. Clone the project
 
 ```
-git clone theurl
+git clone https://github.com/nfasarakis/VenueApp.git
 ```
 
 3. Install the dependencies specified in the lock file
