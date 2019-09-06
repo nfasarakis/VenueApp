@@ -8,39 +8,44 @@ The Venue App logs & shares near-real time data about how many people are at a g
 
 ## Setup
 
-1. Install react-navigation in project folder
+1. Follow the instruction in [the getting started page of the docs](https://facebook.github.io/react-native/docs/getting-started) to install all needed dependencies and react-native command-line tools
+
+> **WARNING**: This project uses yarn as the default package manager. Find out more [here](https://code.fb.com/web/yarn-a-new-package-manager-for-javascript/)
+
+2. Clone the project
 
 ```
-yarn add react-navigation
+git clone theurl
 ```
 
-2. Install react-native-gesture-handler in project folder
+3. Install the dependencies specified in the lock file
 
 ```
-yarn add react-native-gesture-handler
+cd ./VenueApp && yarn
 ```
 
-3. Install react-native-linear-gradient in project folder
+This will install
+* [react-navigation](https://github.com/react-navigation/react-navigation)
+* [react-native-linear-gradient](https://github.com/react-native-community/react-native-linear-gradient)
+* [react-native-maps](https://github.com/react-native-community/react-native-maps)  
+
+
+4. (Auto)link any native dependencies
 
 ```
-yarn add react-native-linear-gradient
-```
-
-4. Install react-native-maps in project folder
-
-```
-yarn add react-native-maps -E
-```
-
-See detailed react-native-maps [Installation Instructions](https://github.com/react-native-community/react-native-maps/blob/master/docs/installation.md).
-
-
-4. (Auto)linking of packages
-
-```
-cd ios && pod install && cd.. # iOS needs this extra step
+cd ios && pod install && cd .. # iOS needs this extra step
 ```
 
 > **WARNING**: Autolinking available in React Native 0.60 and higher! If using a lower version of React Native you'll need to link native dependencies with -link
 
 See [Autolinking](https://github.com/react-native-community/cli/blob/master/docs/autolinking.md) for more information
+
+5. Run the project (see instructions in the [react-native-docs](https://facebook.github.io/react-native/docs/getting-started))
+
+```
+react-native run-ios
+```
+or
+```
+react-native run-android
+```
