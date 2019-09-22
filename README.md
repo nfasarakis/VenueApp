@@ -6,6 +6,8 @@ React Native Venue App - Front End
 
 The Venue App logs & shares near-real time data about how many people are at a given "Venue" while also notifying users about any offers available. That data is crowdsourced directly by all users of the app.
 
+Only the front-end of the app is included here in demo form.
+
 ## Setup
 
 1. Follow the instruction in [the getting started page of the docs](https://facebook.github.io/react-native/docs/getting-started) to install all needed dependencies and react-native command-line tools
@@ -27,7 +29,10 @@ cd ./VenueApp && yarn
 This will install
 * [react-navigation](https://github.com/react-navigation/react-navigation)
 * [react-native-linear-gradient](https://github.com/react-native-community/react-native-linear-gradient)
-* [react-native-maps](https://github.com/react-native-community/react-native-maps)  
+* [react-native-maps](https://github.com/react-native-community/react-native-maps) 
+* [redux](https://github.com/reduxjs/redux/)
+* [react-redux](https://github.com/reduxjs/react-redux)
+* [redux-thunk](https://github.com/reduxjs/redux-thunk)
 
 
 4. (Auto)link any native dependencies
