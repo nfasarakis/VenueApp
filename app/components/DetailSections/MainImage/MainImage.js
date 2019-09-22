@@ -26,22 +26,22 @@ export default class MainImage extends Component {
      // Note: this way is dumb but string in require(*) has to be know statisticaly
      //  accoriding to the react-native docs
      if (this.props.venue.name == "Johnny Deppy Bar") {
-       return (<Image style={styles.mainImage} source={require('../../../../jsondata/images/ChIJhyeNH0SYoRQRkMU4ZDVfQ78_0.jpeg')}/>)
+       return (<Image style={styles.mainImage} source={require('../../../../jsondata_DEV/images/ChIJhyeNH0SYoRQRkMU4ZDVfQ78_0.jpeg')}/>)
      }
      if (this.props.venue.name == "Darwin koffie-bar") {
-       return (<Image style={styles.mainImage} source={require('../../../../jsondata/images/ChIJIxQjCPmYoRQRNKkNlR9hS_0_0.jpeg')}/>)
+       return (<Image style={styles.mainImage} source={require('../../../../jsondata_DEV/images/ChIJIxQjCPmYoRQRNKkNlR9hS_0_0.jpeg')}/>)
      }
      if (this.props.venue.name == "Cibo Cafe-Bar-Restaurant") {
-       return (<Image style={styles.mainImage} source={require('../../../../jsondata/images/ChIJg0ZZPDyZoRQRiyO8hxi5cvM_0.jpeg')}/>)
+       return (<Image style={styles.mainImage} source={require('../../../../jsondata_DEV/images/ChIJg0ZZPDyZoRQRiyO8hxi5cvM_0.jpeg')}/>)
      }
      if (this.props.venue.name == "Maimou Bar") {
-       return (<Image style={styles.mainImage} source={require('../../../../jsondata/images/ChIJtzAWKPiYoRQRYYaK5sQMTS8_0.jpeg')}/>)
+       return (<Image style={styles.mainImage} source={require('../../../../jsondata_DEV/images/ChIJtzAWKPiYoRQRYYaK5sQMTS8_0.jpeg')}/>)
      }
      if (this.props.venue.name == "Life Bar") {
-       return (<Image style={styles.mainImage} source={require('../../../../jsondata/images/ChIJwVK2ePeYoRQRY24pjGswLto_0.jpeg')}/>)
+       return (<Image style={styles.mainImage} source={require('../../../../jsondata_DEV/images/ChIJwVK2ePeYoRQRY24pjGswLto_0.jpeg')}/>)
      }
      if (this.props.venue.name == "home") {
-       return (<Image style={styles.mainImage} source={require('../../../../jsondata/images/randomNormieKeyReeee_0.jpeg')}/>)
+       return (<Image style={styles.mainImage} source={require('../../../../jsondata_DEV/images/randomNormieKeyReeee_0.jpeg')}/>)
      }
    }
 

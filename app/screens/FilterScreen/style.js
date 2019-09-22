@@ -13,6 +13,9 @@ const styles = StyleSheet.create({
   scrollview: {
     width: '100%',
   },
+  scrollViewContentContainer: {
+    alignItems: 'center',
+  },
 });
 
 export default styles;

@@ -38,8 +38,8 @@
       "34+": 13
     },
     "media": [
-      "http://venue.api.influence-web.gr/storelist/img/ChIJhyeNH0SYoRQRkMU4ZDVfQ78_0.jpeg",
-      "http://venue.api.influence-web.gr/storelist/img/ChIJhyeNH0SYoRQRkMU4ZDVfQ78_1.jpeg"
+      "../../../jsondata_DEV/images/ChIJhyeNH0SYoRQRkMU4ZDVfQ78_0.jpeg",
+      "../../../jsondata_DEV/images/ChIJhyeNH0SYoRQRkMU4ZDVfQ78_1.jpeg"
     ],
     "key": "ChIJhyeNH0SYoRQRkMU4ZDVfQ78",
     "time": "19:00 - 03:00",
@@ -94,8 +94,8 @@
       "34+": 6
     },
     "media": [
-      "http://venue.api.influence-web.gr/storelist/img/ChIJIxQjCPmYoRQRNKkNlR9hS_0_0.jpeg",
-      "http://venue.api.influence-web.gr/storelist/img/ChIJIxQjCPmYoRQRNKkNlR9hS_0_1.jpeg"
+      "../../../jsondata_DEV/images/ChIJIxQjCPmYoRQRNKkNlR9hS_0_0.jpeg",
+      "../../../jsondata_DEV/images/ChIJIxQjCPmYoRQRNKkNlR9hS_0_1.jpeg"
     ],
     "key": "ChIJIxQjCPmYoRQRNKkNlR9hS_0",
     "time": "19:00 - 03:00",
@@ -150,8 +150,8 @@
       "34+": 11
     },
     "media": [
-      "http://venue.api.influence-web.gr/storelist/img/ChIJg0ZZPDyZoRQRiyO8hxi5cvM_0.jpeg",
-      "http://venue.api.influence-web.gr/storelist/img/ChIJg0ZZPDyZoRQRiyO8hxi5cvM_1.jpeg"
+      "../../../jsondata_DEV/images/ChIJg0ZZPDyZoRQRiyO8hxi5cvM_0.jpeg",
+      "../../../jsondata_DEV/images/ChIJg0ZZPDyZoRQRiyO8hxi5cvM_1.jpeg"
     ],
     "key": "ChIJg0ZZPDyZoRQRiyO8hxi5cvM",
     "time": "19:00 - 03:00",
@@ -206,8 +206,8 @@
       "34+": 6
     },
     "media": [
-      "http://venue.api.influence-web.gr/storelist/img/ChIJtzAWKPiYoRQRYYaK5sQMTS8_0.jpeg",
-      "http://venue.api.influence-web.gr/storelist/img/ChIJtzAWKPiYoRQRYYaK5sQMTS8_1.jpeg"
+      "../../../jsondata_DEV/images/ChIJtzAWKPiYoRQRYYaK5sQMTS8_0.jpeg",
+      "../../../jsondata_DEV/images/ChIJtzAWKPiYoRQRYYaK5sQMTS8_1.jpeg"
     ],
     "key": "ChIJtzAWKPiYoRQRYYaK5sQMTS8",
     "time": "19:00 - 03:00",
@@ -262,8 +262,8 @@
       "34+": 15
     },
     "media": [
-      "http://venue.api.influence-web.gr/storelist/img/ChIJwVK2ePeYoRQRY24pjGswLto_0.jpeg",
-      "http://venue.api.influence-web.gr/storelist/img/ChIJwVK2ePeYoRQRY24pjGswLto_1.jpeg"
+      "../../../jsondata_DEV/images/ChIJwVK2ePeYoRQRY24pjGswLto_0.jpeg",
+      "../../../jsondata_DEV/images/ChIJwVK2ePeYoRQRY24pjGswLto_1.jpeg"
     ],
     "key": "ChIJwVK2ePeYoRQRY24pjGswLto",
     "time": "19:00 - 03:00",
@@ -290,8 +290,8 @@
     "time": "19:00 - 03:00",
     "key": "randomNormieKeyReeee",
     "media": [
-      "http://venue.api.influence-web.gr/storelist/img/randomNormieKeyReeee_0.jpg",
-      "http://venue.api.influence-web.gr/storelist/img/randomNormieKeyReeee_1.jpg"
+      "../../../jsondata_DEV/images/randomNormieKeyReeee_0.jpg",
+      "../../../jsondata_DEV/images/randomNormieKeyReeee_1.jpg"
     ],
     "people": {
       "MenLive": 16,

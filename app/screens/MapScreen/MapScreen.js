@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {View, Animated} from 'react-native';
 import MapDisplay from '../../components/MapDisplay';
-import fetchInitalStores from '../../util/ajax';
+import {fetchStores} from '../../util/ajax';
 import {LoadingIcon} from '../../components';
 import styles from './style';
 
@@ -43,8 +43,8 @@ export default class MapScreen extends Component {
         // For DEVELOPMENT, simply run another store query
         // In release, this should depend on NEW filtering parameters
         // AND search params in state
-        const storesJson = await fetchInitalStores();
-        const secondaryJson = await fetchInitalStores();
+        const storesJson = await fetchStores();
+        const secondaryJson = await fetchStores();
         // Mannualy delay for 1 second to view loading animations
         // Done by promishifying a setTimeout
         await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -61,8 +61,8 @@ export default class MapScreen extends Component {
         // For DEVELOPMENT, simply run another store query
         // In release, this should depend on NEW search parameters
         // AND filtering params in state
-        const storesJson = await fetchInitalStores();
-        const secondaryJson = await fetchInitalStores();
+        const storesJson = await fetchStores();
+        const secondaryJson = await fetchStores();
         // Mannualy delay for 1 second to view loading animations
         // Done by promishifying a setTimeout
         await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -97,9 +97,9 @@ export default class MapScreen extends Component {
   // When the component mounts, fetch stores from Venue Server
   async componentDidMount() {
     // Fetch stores
-    const storesJson = await fetchInitalStores();
+    const storesJson = await fetchStores();
     // Fetch recommended stores
-    const secondaryJson = await fetchInitalStores();
+    const secondaryJson = await fetchStores();
     // Mannualy delay for 1 second to view loading animations
     // Done by promishifying a setTimeout
     await new Promise((resolve) => setTimeout(resolve, 1000));

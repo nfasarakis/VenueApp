@@ -23,13 +23,17 @@
 //                  --- SpecialsScreen
 
 // Jim, npm install --save react-navigation
-import {createBottomTabNavigator, createMaterialTopTabNavigator, createStackNavigator} from 'react-navigation';
+import {
+  createBottomTabNavigator,
+  createMaterialTopTabNavigator,
+  createStackNavigator,
+} from 'react-navigation';
 
 // import screens used in app
-import DiscoverScreen from '../screens/DiscoverScreen';
-import FavouritesScreen from '../screens/FavouritesScreen';
-import VisitedScreen from '../screens/VisitedScreen';
-import OffersScreen from '../screens/OffersScreen';
+import DiscoverScreen from '../screens/MainTabScreens/DiscoverScreen';
+import FavouritesScreen from '../screens/MainTabScreens/FavouritesScreen';
+import VisitedScreen from '../screens/MainTabScreens/VisitedScreen';
+import OffersScreen from '../screens/MainTabScreens/OffersScreen';
 import MapScreen from '../screens/MapScreen';
 import FilterScreen from '../screens/FilterScreen';
 import SearchScreen from '../screens/SearchScreen';

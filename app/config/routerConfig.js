@@ -233,7 +233,6 @@ const MainTabsNavigationOptions = ({ navigation }) => ({
         // of the origin tab
         {
           originTab: navigation.state.routes[navigation.state.index].key,
-          filterState: navigation.state.routes[navigation.state.index].params.filterStores
         }
       );
     }}
@@ -251,17 +250,6 @@ const MainTabsNavigationOptions = ({ navigation }) => ({
         // of each tab
         {
           originTab: navigation.state.routes[navigation.state.index].key,
-          filterStores: navigation.state.routes[navigation.state.index].params.filterStores,
-          searchOnAllTabs: (searchParam) => {
-            // Seach on discover tab
-            navigation.state.routes[0].params.searchStores(searchParam);
-            // Search on Favorites tab
-            navigation.state.routes[1].params.searchStores(searchParam);
-            // Search on Visited tab
-            navigation.state.routes[2].params.searchStores(searchParam);
-            // Search on Offers tab
-            navigation.state.routes[3].params.searchStores(searchParam);
-          }
         }
       );
     }}
@@ -274,18 +262,6 @@ const MainTabsNavigationOptions = ({ navigation }) => ({
         // Since this is the navigation object for the tab navigator, we can
         // acess each individual function via the navigation.state.routes[] obj
         // console.log(navigation) to see the structure
-        {
-          search: (searchParam) => {
-            // Seach on discover tab
-            navigation.state.routes[0].params.searchStores(searchParam);
-            // Search on Favorites tab
-            navigation.state.routes[1].params.searchStores(searchParam);
-            // Search on Visited tab
-            navigation.state.routes[2].params.searchStores(searchParam);
-            // Search on Offers tab
-            navigation.state.routes[3].params.searchStores(searchParam);
-          }
-        }
       );
     }}
     isMapScreen={false}
