@@ -5,7 +5,8 @@ import {VenueDoubleList} from '../shared';
 import {LoadingIcon} from '../../../components';
 
 /**
- * DiscoverScreen Component: Screen containing list of Venues - Main App Screen
+ * DiscoverScreen Component: Screen containing list of Venues as well as a
+ * list of recommended Venues in a specific location (recommendedation potentially monetizable)
  *
  * The DiscoverScreen Component receives the following props
  *  @param {object} navigation The navigation object passed by the React-Native-Navigation
@@ -16,9 +17,10 @@ export default function DiscoverScreen(props) {
 
   // Retrieve values from the redux store
   let venues = useSelector(state => state.venues, shallowEqual);
-  let searchArea = useSelector(state => state.searchArea);
-  let isFetching = useSelector(state => state.fetching);
   let recommended = useSelector(state => state.recommendedVenues, shallowEqual);
+  let isFetchingVenues = useSelector(state => state.fetchingVenues);
+  let isFetchingRecommended = useSelector(state => state.fetchingRecommended);
+  let searchArea = useSelector(state => state.searchArea);
   /*
    * When App component mounts, fetch venues/stores from server
    */
@@ -27,8 +29,8 @@ export default function DiscoverScreen(props) {
     dispatch(addRecommendedVenues());
   }, [dispatch]);
 
-  // If stores have loaded, show them
-  if (isFetching === false) {
+  // If venues have loaded, show them
+  if (isFetchingVenues === false && isFetchingRecommended === false) {
     return (
       <VenueDoubleList
         screenName="Discover"
@@ -39,7 +41,7 @@ export default function DiscoverScreen(props) {
       />
     );
   } else {
-    // Stores havent loaded yet, show loading animation
+    // Venues havent loaded yet, show loading animation
     return <LoadingIcon />;
   }
 }

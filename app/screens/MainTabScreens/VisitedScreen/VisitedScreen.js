@@ -8,9 +8,10 @@ import {VenueDoubleListTall} from '../shared';
 import {LoadingIcon} from '../../../components';
 
 /**
- * DiscoverScreen Component: Screen containing list of Venues - Main App Screen
+ * VisitedScreen Component: Screen containing list of Venues user has visited
+ * as well as most visited venues in a specific area
  *
- * The DiscoverScreen Component receives the following props
+ * The VisitedScreen Component receives the following props
  *  @param {object} navigation The navigation object passed by the React-Native-Navigation
  */
 export default function OffersScreen(props) {
@@ -18,9 +19,11 @@ export default function OffersScreen(props) {
   const dispatch = useDispatch();
   // Retrieve values from the redux store
   let mostVisited = useSelector(state => state.mostVisitedVenues, shallowEqual);
-  let searchArea = useSelector(state => state.searchArea);
-  let isFetching = useSelector(state => state.fetching);
   let userVisited = useSelector(state => state.userVisitedVenues, shallowEqual);
+  let isFetchingMostVisited = useSelector(state => state.fetchingMostVisited);
+  let isFetchingUserVisited = useSelector(state => state.fetchingUserVisited);
+  let searchArea = useSelector(state => state.searchArea);
+
   /*
    * When App component mounts, fetch venues/stores from server
    */
@@ -29,8 +32,8 @@ export default function OffersScreen(props) {
     dispatch(addUserVisitedVenues());
   }, [dispatch]);
 
-  // If stores have loaded, show them
-  if (isFetching === false) {
+  // If venues have loaded, show them
+  if (isFetchingMostVisited === false && isFetchingUserVisited === false) {
     return (
       <VenueDoubleListTall
         screenName="Visited"
@@ -41,7 +44,7 @@ export default function OffersScreen(props) {
       />
     );
   } else {
-    // Stores havent loaded yet, show loading animation
+    // Venues havent loaded yet, show loading animation
     return <LoadingIcon />;
   }
 }

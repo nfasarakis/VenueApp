@@ -8,7 +8,8 @@ import {VenueDoubleListTall} from '../shared';
 import {LoadingIcon} from '../../../components';
 
 /**
- * DiscoverScreen Component: Screen containing list of Venues - Main App Screen
+ * FavoritesScreen Component: Screen containing list of Venues the user has marked
+ * as favorites (loved), as well as the most loved venues in the area
  *
  * The DiscoverScreen Component receives the following props
  *  @param {object} navigation The navigation object passed by the React-Native-Navigation
@@ -16,11 +17,14 @@ import {LoadingIcon} from '../../../components';
 export default function OffersScreen(props) {
   // Retieve reference to dispatch() from the redux store
   const dispatch = useDispatch();
+
   // Retrieve values from the redux store
   let mostLoved = useSelector(state => state.mostLovedVenues, shallowEqual);
-  let searchArea = useSelector(state => state.searchArea);
-  let isFetching = useSelector(state => state.fetching);
   let userLoved = useSelector(state => state.userLovedVenues, shallowEqual);
+  let isFetchingMostLoved = useSelector(state => state.fetchingMostLoved);
+  let isFetchingUserLoved = useSelector(state => state.fetchingUserLoved);
+  let searchArea = useSelector(state => state.searchArea);
+
   /*
    * When App component mounts, fetch venues/stores from server
    */
@@ -29,8 +33,8 @@ export default function OffersScreen(props) {
     dispatch(addUserLovedVenues());
   }, [dispatch]);
 
-  // If stores have loaded, show them
-  if (isFetching === false) {
+  // If venues have loaded, show them
+  if (isFetchingMostLoved === false && isFetchingUserLoved === false) {
     return (
       <VenueDoubleListTall
         screenName="Favorites"
@@ -41,7 +45,7 @@ export default function OffersScreen(props) {
       />
     );
   } else {
-    // Stores havent loaded yet, show loading animation
+    // Venues havent loaded yet, show loading animation
     return <LoadingIcon />;
   }
 }

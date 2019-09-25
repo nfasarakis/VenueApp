@@ -8,22 +8,28 @@ import {VenueDoubleList} from '../shared';
 import {LoadingIcon} from '../../../components';
 
 /**
- * DiscoverScreen Component: Screen containing list of Venues - Main App Screen
+ * OffersScreen Component: Screen containing list of Venues with offers as well
+ * as recommended (by the app) venues with offers (potentially monetizable)
  *
- * The DiscoverScreen Component receives the following props
+ * The OffersScreen Component receives the following props
  *  @param {object} navigation The navigation object passed by the React-Native-Navigation
  */
 export default function OffersScreen(props) {
   // Retieve reference to dispatch() from the redux store
   const dispatch = useDispatch();
+
   // Retrieve values from the redux store
   let recOffers = useSelector(
     state => state.recommendedWithOffers,
     shallowEqual,
   );
-  let searchArea = useSelector(state => state.searchArea);
-  let isFetching = useSelector(state => state.fetching);
   let withOffers = useSelector(state => state.venuesWithOffers, shallowEqual);
+  let isFetchingRecOffers = useSelector(
+    state => state.fetchingRecommendedOffers,
+  );
+  let isFetchingWithOffers = useSelector(state => state.fetchingWithOffers);
+  let searchArea = useSelector(state => state.searchArea);
+
   /*
    * When App component mounts, fetch venues/stores from server
    */
@@ -32,8 +38,8 @@ export default function OffersScreen(props) {
     dispatch(addVenuesWithOffers());
   }, [dispatch]);
 
-  // If stores have loaded, show them
-  if (isFetching === false) {
+  // If venues have loaded, show them
+  if (isFetchingRecOffers === false && isFetchingWithOffers === false) {
     return (
       <VenueDoubleList
         screenName="Offers"
@@ -44,7 +50,7 @@ export default function OffersScreen(props) {
       />
     );
   } else {
-    // Stores havent loaded yet, show loading animation
+    // Venues havent loaded yet, show loading animation
     return <LoadingIcon />;
   }
 }
