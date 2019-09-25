@@ -74,7 +74,7 @@ export default function MapScreen(props) {
     return (
       <View style={styles.container}>
         <MapDisplay
-          stores={venues}
+          venues={venues}
           onVenuePress={() => {}}
           // Origin tab passed in routerConfig
           originTab={props.navigation.state.params.originTab}
