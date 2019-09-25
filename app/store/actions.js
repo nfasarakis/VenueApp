@@ -6,7 +6,7 @@ import shuffle from '../util/shuffleArray';
 
 // Thunk - Add description
 export const addVenues = () => async dispatch => {
-  dispatch({type: C.INIT_FETCH});
+  dispatch({type: C.INIT_FETCH_VENUES});
 
   // Fetch data from server/local - Delay mocked with timeout
   await new Promise(resolve => setTimeout(() => resolve(1), 1000));
@@ -18,7 +18,7 @@ export const addVenues = () => async dispatch => {
 
 // Thunk - Add description
 export const addRecommendedVenues = () => async dispatch => {
-  dispatch({type: C.INIT_FETCH});
+  dispatch({type: C.INIT_FETCH_RECOMMENDED});
 
   // Fetch data from server/local - Delay mocked with timeout
   await new Promise(resolve => setTimeout(() => resolve(1), 2500));
@@ -30,7 +30,7 @@ export const addRecommendedVenues = () => async dispatch => {
 
 // Thunk - Add description
 export const addMostLovedVenues = () => async dispatch => {
-  dispatch({type: C.INIT_FETCH});
+  dispatch({type: C.INIT_FETCH_MOSTLOVED});
 
   // Fetch data from server/local - Delay mocked with timeout
   await new Promise(resolve => setTimeout(() => resolve(1), 1000));
@@ -42,7 +42,7 @@ export const addMostLovedVenues = () => async dispatch => {
 
 // Thunk - Add description
 export const addMostVisitedVenues = () => async dispatch => {
-  dispatch({type: C.INIT_FETCH});
+  dispatch({type: C.INIT_FETCH_MOSTVISITED});
 
   // Fetch data from server/local - Delay mocked with timeout
   await new Promise(resolve => setTimeout(() => resolve(1), 1000));
@@ -54,7 +54,7 @@ export const addMostVisitedVenues = () => async dispatch => {
 
 // Thunk - Add description
 export const addRecommentedWithOffers = () => async dispatch => {
-  dispatch({type: C.INIT_FETCH});
+  dispatch({type: C.INIT_FETCH_RECOMMENDEDOFFERS});
 
   // Fetch data from server/local - Delay mocked with timeout
   await new Promise(resolve => setTimeout(() => resolve(1), 1));
@@ -66,7 +66,7 @@ export const addRecommentedWithOffers = () => async dispatch => {
 
 // Thunk - Add description
 export const addVenuesWithOffers = () => async dispatch => {
-  dispatch({type: C.INIT_FETCH});
+  dispatch({type: C.INIT_FETCH_WITHOFFERS});
 
   // Fetch data from server/local - Delay mocked with timeout
   await new Promise(resolve => setTimeout(() => resolve(1), 1000));
@@ -78,7 +78,7 @@ export const addVenuesWithOffers = () => async dispatch => {
 
 // Thunk - Add description
 export const addUserVisitedVenues = () => async dispatch => {
-  dispatch({type: C.INIT_FETCH});
+  dispatch({type: C.INIT_FETCH_USERVISITED});
 
   // Fetch data from server/local - Delay mocked with timeout
   await new Promise(resolve => setTimeout(() => resolve(1), 1000));
@@ -90,7 +90,7 @@ export const addUserVisitedVenues = () => async dispatch => {
 
 // Thunk - Add description
 export const addUserLovedVenues = () => async dispatch => {
-  dispatch({type: C.INIT_FETCH});
+  dispatch({type: C.INIT_FETCH_USERLOVED});
 
   // Fetch data from server/local - Delay mocked with timeout
   await new Promise(resolve => setTimeout(() => resolve(1), 1000));

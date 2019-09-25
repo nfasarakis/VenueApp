@@ -2647,6 +2647,13 @@
       ]
     }
 	],
-	"searchArea": "Athens",
-  "fetching": false
+	"fetchingVenues": false,
+	"fetchingRecommended": false,
+	"fetchingMostLoved": false,
+	"fetchingMostVisited": false,
+	"fetchingRecommendedOffers": false,
+	"fetchingWithOffers": false,
+	"fetchingUserVisited": false,
+	"fetchingUserLoved": false,
+	"searchArea": "Athens"
 }
