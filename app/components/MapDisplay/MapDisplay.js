@@ -1,211 +1,211 @@
-import React, { Component } from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, FlatList} from 'react-native';
-//import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import MapView from 'react-native-maps';
 import {Marker} from 'react-native-maps';
 import MapPreview from '../MapPreview';
 import {TextButton} from '../elements';
-import config from '../../config';
-import type { StoreType } from '../../config/typedefs';
 import PropTypes from 'prop-types';
+import config from '../../config';
 import styles from './style';
 
-// Card width as specified in config file
-// Used to Calculate the index of the most visible flatlist item
-const CARD_WIDTH: number = config.dimensions.CARD_WIDTH_MAP;
+// Width of items rendered in flatlist, initialized with values in config file
+const CARD_WIDTH = config.dimensions.CARD_WIDTH_MAP;
+// Current region, initilized with values in config file
+const initialRegion = config.locations.Halandri;
+const currentCoordinates = {
+  latitude: config.locations.Halandri.latitude,
+  longitude: config.locations.Halandri.longitude,
+};
+const currentZoomLevel = {
+  latitudeDelta: config.locations.Halandri.latitudeDelta,
+  longitudeDelta: config.locations.Halandri.longitudeDelta,
+};
 
-export default class MapDisplay extends Component {
+MapDisplay.propTypes = {
+  // A JSON formated array of stores/venues to show on map
+  venues: PropTypes.array.isRequired,
+  // Callback for press events on TouchableOpacity component representing a StorePreview
+  onVenuePress: PropTypes.func.isRequired,
+  // String specifying which tab loaded the Map screen
+  // Values: discover/visited/favourites/offers
+  // Used to create the FlatList header/first element
+  originTab: PropTypes.string.isRequired,
+};
 
-  static propTypes = {
-    // A JSON formated array of stores/venues to show on map
-    stores: PropTypes.array.isRequired,
-    // Callback for press events on TouchableOpacity component representing a StorePreview
-    onVenuePress: PropTypes.func.isRequired,
-    // String specifying which tab loaded the Map screen
-    // Values: discover/visited/favourites/offers
-    // Used to create the FlatList header/first element
-    originTab: PropTypes.string.isRequired
-  }
+export default function MapDisplay(props) {
+  // Value in the [0, props.venues.length] range
+  // Index corresponding to venue focused in Flatlist
+  const [index, setIndex] = useState(0);
 
-  state = {
-    // Index corresponding to venue focused in Flatlist
-    index: 0,
+  // Reference to map component <MapView> and <FlatList> components in render() method
+  // Used to trigger animations
+  let map = React.createRef();
+  let flatlist = React.createRef();
+
+  /**
+   * During each update of the index state value
+   *  - Scrolls the flatlist s.t venue in position index of the prop.venues array
+   *      is visible
+   *  - Animate map to region around venue in position indexof the prop.venues array
+   */
+  useEffect(() => {
+    /**
+     * Scrolls Flatlist to element at position index
+     * This is done using a ref to the <FlatList> component instance to trigger the scrollToIndex method
+     *
+     * @param  {number} idx The position to which the FlatList is scrolled
+     */
+    const snapToCardStart = idx => {
+      flatlist.current.scrollToIndex({
+        index: idx,
+        viewPosition: idx === props.venues.length - 1 ? 1 : 0.5,
+      });
+    };
+    /**
+     * Given venue, animate map region to venue's coordinates
+     * This is done using a ref to the <MapView> component instance to trigger the animateToRegion method
+     *
+     * @param {object} venue Object containing all data for the venue
+     */
+    const animateRegionToVenue = venue => {
+      // Receive coordinates
+      currentCoordinates.latitude = venue.coordinates.latitude;
+      currentCoordinates.longitude = venue.coordinates.longitude;
+      // Animate to and zoom to coordinates over a duration of 200ms
+      // Use the ref passed in the <MapView> component
+      map.current.animateToRegion(
+        {
+          ...currentCoordinates,
+          latitudeDelta: currentZoomLevel.latitudeDelta / 4,
+          longitudeDelta: currentZoomLevel.longitudeDelta / 4,
+        },
+        400,
+      );
+    };
+    snapToCardStart(index);
+    animateRegionToVenue(props.venues[index]);
+  }, [flatlist, index, map, props.venues]);
+
+  /**
+   *  When a user presses on a marker in the map, update the index state variable
+   *
+   * Each marker is placed at coordinates given by the venue it represents. So by
+   * clicking on the marker we can use those coords to find what venue it represents
+   * and therefore, the corresponding value of index
+   * This new index value updates the state and triggers animations in useEffect() callback
+   *
+   * @param {object} markerCoords Object containing marker coords
+   */
+  const onMarkerPress = markerCoords => {
+    // Unpack and rename marker coordinates through destructuring
+    const {latitude: latM, longitude: lonM} = markerCoords;
+    // Search over array of venues in props to find venue with matching coords
+    // use array.prototype.findIndex();
+    const idx = props.venues.findIndex(el => {
+      // Unpack and rename venue coordinates through destructuring
+      const {latitude: latV, longitude: lonV} = el.coordinates;
+      return latV === latM && lonV === lonM;
+    });
+    // Update active index
+    setIndex(idx);
   };
 
-  // Holds the current region, initilized with values in config file
-  initialRegion = config.locations.Halandri;
-  currentCoordinates = {
-    latitude: config.locations.Halandri.latitude,
-    longitude: config.locations.Halandri.longitude
-  }
-  currentZoomLevel = {
-    latitudeDelta: config.locations.Halandri.latitudeDelta,
-    longitudeDelta: config.locations.Halandri.longitudeDelta
-  }
-
-  // Given venue, animated map region to it's coordinates
-  animateRegionToVenue = (venue) => {
-    // Receive coordinates
-    this.currentCoordinates.latitude = venue.coordinates.latitude;
-    this.currentCoordinates.longitude = venue.coordinates.longitude;
-    // Animate to and zoom to coordinates over a duration of 200ms
-    this.map.animateToRegion({
-      ...this.currentCoordinates,
-      latitudeDelta: this.currentZoomLevel.latitudeDelta/4,
-      longitudeDelta: this.currentZoomLevel.longitudeDelta/4,
-    }, 400);
-  }
-
-  /* Arrow in order to not worry about this.*/
-  onMarkerPress = (coords) => {
-    /* Unpack coordinates (twice!) and go through stores to
-       find the index of the store with coordinates == coord.
-    */
-    const {latitude: lat2, longitude: lon2} = coords;
-    const index: number = this.props.stores.findIndex(
-      (element: StoreType) => {
-        const {latitude: lat1, longitude: lon1} = element.coordinates;
-        return lat1 == lat2 && lon1 == lon2;
-      }
-    );
-
-    // Update active index
-    this.setState({index: index}, ()=>{
-      this.snapToCardStart(index);
-      // After updating active index, animate to region
-      this.animateRegionToVenue(this.props.stores[this.state.index]);
-    });
-  }
-
-  /* Generates the markers that appear on the map
-  */
-  generateMapMarkers = () => {
-    // Map over all venues
-    const markers = this.props.stores.map((store, index) =>
+  /** Generates the markers that appear on the map
+   *
+   * @return {Array} Array of <Marker> components representing each venue
+   *                 in props.venue
+   */
+  const generateMapMarkers = () => {
+    // Map over all venues and return a new marker for each one
+    const markers = props.venues.map((venue, idx) => (
       <Marker
-        key = {store.key}
-        coordinate = {store.coordinates}
-        onPress = {()=>this.onMarkerPress(store.coordinates)}
+        key={venue.key}
+        coordinate={venue.coordinates}
+        onPress={() => onMarkerPress(venue.coordinates)}
         // active venue marker is red
-        pinColor = {index!==this.state.index?'#6BA7EC':null}
+        pinColor={idx !== index ? '#6BA7EC' : null}
       />
-    );
+    ));
     // Return markers
     return markers;
-  }
-
-  /**
-   * Renders the items of the horizontal flatList
-   *
-   * @param  {StoreType} item      [The store.]
-   * @return {MapPreview}  [MapPreview Component]
-   */
-  renderItem = ({item}: {item: StoreType}) => {
-    return (
-      <MapPreview
-        store = {item}
-        onPress = {()=>{}}
-      />
-    );
   };
 
   /**
-   * Scrolls Flatlist to input index
+   * Handles flatlist scroll If user decides interact w/ flatlist instead of click on markers
+   * Calculates the "index of the flatlist", i.e what element is current visible in the render window,
+   * and updates state index variable using that value.
+   * This new index value updates the state and triggers animations in useEffect() callback
    *
-   * @param  {number} index
+   * @param  {Object} evt Event object passed from the flatList onScrollEndDrag callback
    */
-  snapToCardStart = (index) => {
-    this.flatList.scrollToIndex({
-      index: index,
-      viewPosition: index===this.props.stores.length-1?1:0.5
-    });
-  }
-
-  /**
-   * When user stops scrolling:
-   * snaps Map Preview Card to nearest index and animates to the
-   * region corresponding to the Card.
-   *
-   * @param  {Object} evt
-   */
-  handleScrollEnd = (evt) => {
-    // Receive x coordinate
+  const handleScrollEnd = evt => {
+    // Receive x coordinate (since flatList is horizontal)
     const xPos = evt.nativeEvent.contentOffset.x;
     // Calculate FlatList index from the contentOffset
     let flatListIndex = Math.round(xPos / CARD_WIDTH);
 
     // Check for edge cases
-    if (flatListIndex >= this.props.stores.length) {flatListIndex = this.props.stores.length - 1;}
-    if (flatListIndex <= 0){flatListIndex = 0;}
+    if (flatListIndex >= props.venues.length) {
+      // Out of bounds, restrict flatListIndex
+      flatListIndex = props.venues.length - 1;
+    }
+    if (flatListIndex <= 0) {
+      // Out of bound, restrict flatListIndex
+      flatListIndex = 0;
+    }
 
-    // Snap Card to nearest index
-    this.snapToCardStart(flatListIndex);
-
-    // Compare with active index and return if no change
-    if (flatListIndex===this.state.index) {return;}
-
-    // Update active index
-    this.setState({index: flatListIndex}, ()=>{
-      // After updating active index, animate to region
-      this.animateRegionToVenue(this.props.stores[this.state.index]);
-    });
-  }
+    // Update state index value
+    setIndex(flatListIndex);
+  };
 
   /**
-   * Renders a MapView (react-native-maps component)
-   * with `n` Markers where `n` is the length
-   * of the stores array
-   * @return {[type]} [description]
+   * Renders a MapView (react-native-maps component) with `n` Markers
+   * where `n` is the length of the venues array passed in as props
    */
-  render() {
+  return (
+    <View style={styles.container}>
+      <MapView
+        ref={map}
+        style={styles.map}
+        initialRegion={initialRegion}
+        showsPointsOfInterest={false}
+        loadingEnabled={true}>
+        {/*Create the map markers*/
+        generateMapMarkers()}
+      </MapView>
 
-    return (
-      <View style = {styles.container}>
-        <MapView
-          //provider={PROVIDER_GOOGLE}
-          ref = {(map) => (this.map = map)}
-          style = {styles.map}
-          initialRegion = {this.initialRegion}
-          //customMapStyle = {config.mapStyle}
-          showsPointsOfInterest = {false}
-          loadingEnabled = {true}
-        >
-          { /*Create the map markers*/
-            this.generateMapMarkers()
-          }
-        </MapView>
-
-        {/*Preview info at bottom of page*/}
-        <View style={styles.venuePreviewContainer}>
-          {/*Display options*/}
-          <View style={styles.buttonContainer}>
-            <TextButton
-              containerStyle={[styles.displayButton, styles.buttonActive]}
-              textStyle={[styles.displayButtonText, styles.textActive]}
-              onButtonPress={()=>{}}
-              title={'DISCOVER NEW VENUES'}
-            />
-            <TextButton
-              containerStyle={styles.displayButton}
-              textStyle={styles.displayButtonText}
-              onButtonPress={()=>{}}
-              title={'SHOW RECOMMENDED'}
-            />
-          </View>
-          {/*Flatlist with Venues*/}
-          <View style={styles.flatListContainer}>
-            <FlatList
-              ref = {(ref)=>this.flatList=ref}
-              horizontal = {true}
-              scrollEventThrottle = {16} // 60FPS
-              showsHorizontalScrollIndicator = {false}
-              data = {this.props.stores}
-              renderItem = { this.renderItem }
-              onScrollEndDrag = {this.handleScrollEnd}
-            />
-          </View>
+      {/*Preview info at bottom of page*/}
+      <View style={styles.venuePreviewContainer}>
+        {/*Display options*/}
+        <View style={styles.buttonContainer}>
+          <TextButton
+            containerStyle={[styles.displayButton, styles.buttonActive]}
+            textStyle={[styles.displayButtonText, styles.textActive]}
+            onButtonPress={() => {}}
+            title={'DISCOVER NEW VENUES'}
+          />
+          <TextButton
+            containerStyle={styles.displayButton}
+            textStyle={styles.displayButtonText}
+            onButtonPress={() => {}}
+            title={'SHOW RECOMMENDED'}
+          />
+        </View>
+        {/*Flatlist with Venues*/}
+        <View style={styles.flatListContainer}>
+          <FlatList
+            ref={flatlist}
+            horizontal={true}
+            scrollEventThrottle={16} // 60FPS
+            showsHorizontalScrollIndicator={false}
+            data={props.venues}
+            onScrollEndDrag={handleScrollEnd}
+            renderItem={({item}) => {
+              return <MapPreview store={item} onPress={() => {}} />;
+            }}
+          />
         </View>
       </View>
-    );
-  }
+    </View>
+  );
 }
