@@ -56,7 +56,3 @@ See [Autolinking](https://github.com/react-native-community/cli/blob/master/docs
 ```
 react-native run-ios
 ```
-or
-```
-react-native run-android
-```
