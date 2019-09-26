@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {View} from 'react-native';
 import {IconButton, SearchBar} from '../elements';
 import PropTypes from 'prop-types';
+import {SafeAreaView} from 'react-navigation';
 import styles from './style';
 
 
@@ -29,7 +30,7 @@ export default class TopTab extends Component {
    */
   render() {
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <IconButton
           containerStyle={{}}
           iconSource={require('../images/filter-icon.png')}
@@ -53,7 +54,7 @@ export default class TopTab extends Component {
           }
           onIconPress={this.props.onMapIconPress}
         />
-      </View>
+      </SafeAreaView>
     );
   }
 
