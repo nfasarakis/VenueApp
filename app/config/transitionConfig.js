@@ -1,29 +1,6 @@
-// Contains all config options for the transitions between screens
-// performed by each stack navigator defined in app/config/router.js
-//
-// The navigators have the following structure, with the
-// stack navigations of interest marked
-//  --- MainStackNavigator
-//      --- FilterScreen
-//      --- MapScreen
-//      --- TabWrapperStackNavigator
-//          --- MainTabNavigator
-//              --- DiscoverScreen
-//              --- FavouritesScreen
-//              --- VisitedScreen
-//              --- OffersScreen
-//          --- MapScreen
-//      --- VenueStackNavigator
-//          --- VenueDetailStackNavigator
-//              --- DetailScreen
-//              --- OfferCodeScreen
-//              --- CatalogTabNavigator
-//                  --- AllDrinksScreen
-//                  --- BeersScreen
-//                  --- SpiritsScreen
-//                  --- CocktailsScreen
-//                  --- ShotsScreen
-//                  --- SpecialsScreen
+/* Contains all config options for the transitions between screens
+ * performed by each stack navigator defined in app/config/router.js
+ */
 
 import {Animated, Easing} from 'react-native';
 
@@ -42,11 +19,11 @@ export const VenueTransitionConfig = () => {
       useNativeDriver: true,
     },
     // 2) screenInterpolator function configures layout transformations
-    // This function gets called twise for each screen on the stack
-    screenInterpolator: (sceneProps) => {
+    // This function gets called twice for each screen on the stack
+    screenInterpolator: sceneProps => {
       // Arg sceneProps contains info about the transition
       // as well as an animated value called position
-      const { position, layout, scene } = sceneProps;
+      const {position, layout, scene} = sceneProps;
       const width = layout.initWidth;
       const index = scene.index;
 
@@ -55,15 +32,15 @@ export const VenueTransitionConfig = () => {
       // The interpolation looks at both index-1 and index+1 for that reason
       // maybe??
       const translateX = position.interpolate({
-        inputRange: [index - 1, index, index+1],
-        outputRange: [width, 0, 0]
+        inputRange: [index - 1, index, index + 1],
+        outputRange: [width, 0, 0],
       });
       const opacity = position.interpolate({
-        inputRange: [index - 1, index, index+0.5, index+1],
-        outputRange: [1, 1, 0.8, 0]
+        inputRange: [index - 1, index, index + 0.5, index + 1],
+        outputRange: [1, 1, 0.8, 0],
       });
 
-      const slideInFromRight = { transform: [{ translateX }], opacity };
+      const slideInFromRight = {transform: [{translateX}], opacity};
       return slideInFromRight;
     },
   };
@@ -79,20 +56,20 @@ export const TabWrapperTransitionConfig = () => {
       timing: Animated.timing,
       useNativeDriver: true,
     },
-    screenInterpolator: (sceneProps) => {
-      const { position, scene } = sceneProps;
+    screenInterpolator: sceneProps => {
+      const {position, scene} = sceneProps;
       //const width = layout.initWidth;
       const index = scene.index;
 
       // FadeIn animation
       const opacity = position.interpolate({
-        inputRange: [index - 1, index, index+1],
-        outputRange: [0, 1, 1]
+        inputRange: [index - 1, index, index + 1],
+        outputRange: [0, 1, 1],
       });
-      const FadeIn = { opacity };
+      const FadeIn = {opacity};
 
       return FadeIn;
-    }
+    },
   };
 };
 
@@ -106,24 +83,24 @@ export const MainTransitionConfig = () => {
       timing: Animated.timing,
       useNativeDriver: true,
     },
-    screenInterpolator: (sceneProps) => {
-      const { position, layout, scene } = sceneProps;
+    screenInterpolator: sceneProps => {
+      const {position, layout, scene} = sceneProps;
       const height = layout.initHeight;
       //const width = layout.initWidth;
       const index = scene.index;
 
       // Slide in from bottom animation
       const translateY = position.interpolate({
-        inputRange: [index - 1, index, index+1],
-        outputRange: [height, 0, 0]
+        inputRange: [index - 1, index, index + 1],
+        outputRange: [height, 0, 0],
       });
       const opacity = position.interpolate({
-        inputRange: [index - 1, index, index+1],
-        outputRange: [1, 1, 0]
+        inputRange: [index - 1, index, index + 1],
+        outputRange: [1, 1, 0],
       });
-      const slideInFromBottom = { transform: [{ translateY }], opacity };
+      const slideInFromBottom = {transform: [{translateY}], opacity};
 
       return slideInFromBottom;
-    }
+    },
   };
 };

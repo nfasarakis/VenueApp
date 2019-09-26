@@ -1,28 +1,29 @@
-// Navigation logic for the app
-// Defines the following navigators with structure shown bellow
-//  --- MainStackNavigator
-//      --- FilterScreen
-//      --- MapScreen
-//      --- TabWrapperStackNavigator
-//          --- MainTabNavigator
-//              --- DiscoverScreen
-//              --- FavouritesScreen
-//              --- VisitedScreen
-//              --- OffersScreen
-//          --- MapScreen
-//      --- VenueStackNavigator
-//          --- VenueDetailStackNavigator
-//              --- DetailScreen
-//              --- OfferCodeScreen
-//              --- CatalogTabNavigator
-//                  --- AllDrinksScreen
-//                  --- BeersScreen
-//                  --- SpiritsScreen
-//                  --- CocktailsScreen
-//                  --- ShotsScreen
-//                  --- SpecialsScreen
+/* Navigation logic for the app. Defines navigators with structure shown bellow
+ * Navigation configs and transitions configs are in /routerConfig.js and /transitionConfig resp.
+ *
+ *  - MainStackNavigator (NAVIGATOR)
+ *      - FilterScreen
+ *      - MapScreen
+ *      - TabWrapperStackNavigator (NAVIGATOR) <-- See comments
+ *          - MainTabNavigator (NAVIGATOR)
+ *              - DiscoverScreen
+ *              - FavouritesScreen
+ *              - VisitedScreen
+ *              - OffersScreen
+ *          - MapScreen
+ *      - VenueStackNavigator (NAVIGATOR)
+ *          - VenueDetailStackNavigator (NAVIGATOR)
+ *              - DetailScreen
+ *              - OfferCodeScreen
+ *              - CatalogTabNavigator
+ *                  - AllDrinksScreen
+ *                  - BeersScreen
+ *                  - SpiritsScreen
+ *                  - CocktailsScreen
+ *                  - ShotsScreen
+ *                  - SpecialsScreen
+ */
 
-// Jim, npm install --save react-navigation
 import {
   createBottomTabNavigator,
   createMaterialTopTabNavigator,
@@ -50,7 +51,7 @@ import ShotsScreen from '../screens/ShotsScreen';
 import SpecialsScreen from '../screens/SpecialsScreen';
 import SpiritsScreen from '../screens/SpiritsScreen';
 
-// Import router configuration options from routerConfig
+// Import router configuration options from /routerConfig.js
 import {
   CatalogTabNavigatorConfig,
   VenueDetailStackNavigatorConfig,
@@ -66,9 +67,8 @@ import {
   MapScreenNavigationOptions,
 } from './routerConfig';
 
-
-// Secondary Tab Navigator containing the tabs for each type of drink
-// for a given venue
+// Catalog Tab Navigator:
+// Tab navigator containing the tabs for each type of drink for a given venue
 const CatalogTabNavigator = createMaterialTopTabNavigator(
   {
     AllDrinks: {
@@ -88,13 +88,14 @@ const CatalogTabNavigator = createMaterialTopTabNavigator(
     },
     Specials: {
       screen: SpecialsScreen,
-    }
+    },
   },
-  CatalogTabNavigatorConfig
+  // Navigation config object imported from ./routerConfig.js
+  CatalogTabNavigatorConfig,
 );
 
-// The VenueDetailsStack Navigator contains the
-// DetailsOffer subscreens and the Catalog TabNavigator
+// VenueDetailsStack Stack Navigator
+// Stack Navigator containing the Details screen, OfferCode screens, & Catalog TabNavigator
 const VenueDetailStackNavigator = createStackNavigator(
   {
     Details: {
@@ -105,68 +106,74 @@ const VenueDetailStackNavigator = createStackNavigator(
     },
     Offer: {
       screen: OfferCodeScreen,
-    }
+    },
   },
+  // Navigator config object imported from ./routerConfig.js
   VenueDetailStackNavigatorConfig,
 );
 
-// The Venue Stack Navigator contains
-// all venue detail screens
-// We use this to stack screens when new Venues
-// are selected for the visitedSection in DetailScreen
+// Venue Stack Navigator
+// Stack navigator containing VenueDetails screens stack navigator
+// We use this to stack screens when new Venues are selected for the visitedSection in DetailScreen
 const VenueStackNavigator = createStackNavigator(
   {
     VenueDetails: {
       screen: VenueDetailStackNavigator,
-    }
+    },
   },
-  VenueStackNavigatorConfig
+  // Navigator config object imported from ./routerConfig.js
+  VenueStackNavigatorConfig,
 );
 
-// Main Tab navigator containing the
-// Discover/Favorites/Visited/Offers Screens
+// Main Tab Navigator
+// Tab Navigator containing the Discover/Favorites/Visited/Offers Screens
 const MainTabNavigator = createBottomTabNavigator(
   {
     Discover: {
       screen: DiscoverScreen,
-      navigationOptions: DiscoverNavigationOptions
+      // Navigator options object imported from ./routerConfig.js
+      navigationOptions: DiscoverNavigationOptions,
     },
     Favorites: {
       screen: FavouritesScreen,
-      navigationOptions: FavoritesNavigationOptions
+      // Navigator options object imported from ./routerConfig.js
+      navigationOptions: FavoritesNavigationOptions,
     },
     Visited: {
       screen: VisitedScreen,
-      navigationOptions: VisitedNavigationOptions
+      // Navigator options object imported from ./routerConfig.js
+      navigationOptions: VisitedNavigationOptions,
     },
     Offers: {
       screen: OffersScreen,
-      navigationOptions: OffersNavigationOptions
-    }
+      // Navigator options object imported from ./routerConfig.js
+      navigationOptions: OffersNavigationOptions,
+    },
   },
-  MainTabNavigatorConfig
+  // Navigator config object imported from ./routerConfig.js
+  MainTabNavigatorConfig,
 );
 
-// Wraps around MainTabNavigator to provide a custom header
-// shared between the tabs and the mapScreen tabs
-// This is hacky but the only way to get a header the plays
-// nice with transitions between tabs in the MainTabNavigator and
-// the tabs in the Map Screen
+// TabWrapperStackNavigator Stack Navigator
+// A stack navigator that wraps around MainTabNavigator
 //
-// MAYBE THIS IS NO LONGER NEEDED, i.e the wrapper stays but the map
-// can be moved to MainStackNavigator!!!!!
+// Why?:
+// Used to provide a custom header object SHARED between the MainTabNavigator and the mapScreen
 export const TabWrapperStackNavigator = createStackNavigator(
   {
     TabWrapper: {
       screen: MainTabNavigator,
-      navigationOptions: MainTabsNavigationOptions
+      // Navigator options object imported from ./routerConfig.js
+      navigationOptions: MainTabsNavigationOptions,
     },
     Map: {
       screen: MapScreen,
-      navigationOptions: MapScreenNavigationOptions
+      // Navigator options object imported from ./routerConfig.js
+      navigationOptions: MapScreenNavigationOptions,
     },
   },
-  TabWrapperStackNavigatorConfig
+  // Navigator config object imported from ./routerConfig.js
+  TabWrapperStackNavigatorConfig,
 );
 
 // Root Navigator of the App
@@ -176,14 +183,15 @@ export const MainStackNavigator = createStackNavigator(
       screen: TabWrapperStackNavigator, // <-- see comments above
     },
     Filter: {
-      screen: FilterScreen
+      screen: FilterScreen,
     },
     Venue: {
       screen: VenueStackNavigator,
     },
     Search: {
       screen: SearchScreen,
-    }
+    },
   },
-  MainStackNavigatorConfig
+  // Navigator config object imported from ./routerConfig.js
+  MainStackNavigatorConfig,
 );
