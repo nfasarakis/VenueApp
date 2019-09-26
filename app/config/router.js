@@ -24,11 +24,11 @@
  *                  - SpecialsScreen
  */
 
+import {createStackNavigator} from 'react-navigation-stack';
 import {
   createBottomTabNavigator,
   createMaterialTopTabNavigator,
-  createStackNavigator,
-} from 'react-navigation';
+} from 'react-navigation-tabs';
 
 // import screens used in app
 import DiscoverScreen from '../screens/MainTabScreens/DiscoverScreen';
