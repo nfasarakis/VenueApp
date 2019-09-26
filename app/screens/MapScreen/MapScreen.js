@@ -44,6 +44,7 @@ export default function MapScreen(props) {
 
   /*
    * When component mounts or updates, fetch venues/stores from server if not loaded already
+   * THIS SHOULD DEPEND ON ORIGIN TAB PASSED AS PROP.
    */
   useEffect(() => {
     venues.length === 0 && dispatch(addVenues());
@@ -54,15 +55,6 @@ export default function MapScreen(props) {
     userVisited.length === 0 && dispatch(addUserVisitedVenues());
     withOffers.length === 0 && dispatch(addVenuesWithOffers());
     recOffers.length === 0 && dispatch(addRecommentedWithOffers());
-
-    venues.length === 0 && console.warn('Oh no!');
-    recommended.length === 0 && console.warn('Oh no!');
-    mostLoved.length === 0 && console.warn('Oh no!');
-    userLoved.length === 0 && console.warn('Oh no!');
-    mostVisited.length === 0 && console.warn('Oh no!');
-    userVisited.length === 0 && console.warn('Oh no!');
-    withOffers.length === 0 && console.warn('Oh no!');
-    recOffers.length === 0 && console.warn('Oh no!');
   });
 
   /**
@@ -70,7 +62,7 @@ export default function MapScreen(props) {
    * @return {[type]} [description]
    */
   // If stores have loaded
-  if (isFetching === false) {
+  if (venues.length) {
     return (
       <View style={styles.container}>
         <MapDisplay
