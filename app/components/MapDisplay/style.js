@@ -5,10 +5,10 @@ const styles = StyleSheet.create({
   container: {
     // Takes up all space horizontally and verticaly
     flex: 1,
-    //width: '100%',
   },
   map: {
-    ...StyleSheet.absoluteFillObject,
+    width: '100%',
+    height: '100%',
   },
   venuePreviewContainer: {
     position: 'absolute',
@@ -18,34 +18,34 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-evenly',
     paddingBottom: 10,
   },
   displayButton: {
-    width: 160,
-    borderColor: '#6BA7EC',
+    width: 150,
+    borderColor: '#9B9B9B',
     backgroundColor: 'white',
     borderWidth: 1,
-    borderRadius: 10,
+    borderRadius: 5,
     padding: 8,
   },
   buttonActive: {
-    backgroundColor: '#6BA7EC',
+    borderColor: '#D0021B',
   },
   displayButtonText: {
     textAlign: 'center',
     fontSize: 10,
-    fontWeight: '600',
+    fontWeight: '500',
     fontFamily: 'System',
-    color: '#6BA7EC',
+    color: '#9B9B9B',
   },
   textActive: {
-    color: 'white',
+    color: '#D0021B',
     fontWeight: '700',
   },
   flatListContainer: {
-    borderTopColor: '#979797',
     borderTopWidth: 0.5,
+    borderTopColor: '#979797',
     backgroundColor: 'white',
     paddingTop: 10,
     paddingBottom: 10,

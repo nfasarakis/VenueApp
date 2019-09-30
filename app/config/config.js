@@ -27,4 +27,11 @@ const config = {
   },
 };
 
+// Named exports used in MapDisplay component
+const initialRegion = config.locations.Halandri;
+const defaultZoomLevel = {latitudeDelta: 0.07, longitudeDelta: 0.07};
+const CARD_WIDTH = config.dimensions.CARD_WIDTH_MAP;
+export {initialRegion, defaultZoomLevel, CARD_WIDTH};
+
+// Default export
 export default config;

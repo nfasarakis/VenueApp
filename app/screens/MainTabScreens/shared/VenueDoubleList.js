@@ -98,11 +98,11 @@ const generateHorizTitle = (name, area) => {
     case 'Offers':
       return (
         <View style={styles.storelistheaderContainer}>
-          <Text style={styles.storelistheader}>Recommended </Text>
+          <Text style={styles.storelistheader}>Featured Offers </Text>
           {/*Applies a horz line*/}
           <View style={styles.horline} />
           <Text style={styles.storelistbody}>
-            The best of the best: recommended venues with enticing offers
+            Check out the best offers available
             {area === 'Close to you'
               ? ' close to your current location'
               : ' in ' + area}
@@ -178,7 +178,7 @@ const generateVerticTitle = (name, area) => {
           {/*Applies a horz line*/}
           <View style={styles.horline} />
           <Text style={styles.storelistbody}>
-            {"Take advantage of the best offers we've secured for you"}
+            Play it smart! Check out the following venues with offers
             {area === 'Close to you'
               ? ' close to your current location'
               : ' in ' + area}

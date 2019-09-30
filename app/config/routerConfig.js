@@ -171,7 +171,12 @@ const MainTabNavigatorConfig = {
 
 // Global configuration options for the TabWrapperStackNavigator
 // TabWrapperStackNavigator contains the Map Screen and the MainTabNavigator
-// Used to provide a custom header shared between the map Screen and all tabs in the MainTabNavigator
+// and adds custom transition animations via TabWrapperTransitionConfig
+//
+// Why?
+// In V4, custom animations are specified on a Navigator basis, NOT a screen basis without getting complicated.
+// The only SIMPLE way as of V4 to add DIFFERENT custom transition animations to the map screen is via
+// a wrapper navigator, isolating the map screen from the rest of the top-level screens
 // See router.js for additional details
 const TabWrapperStackNavigatorConfig = {
   defaultNavigationOptions: {
@@ -215,21 +220,8 @@ const MainTabsNavigationOptions = ({navigation}) => ({
 
 // Local NavigationOptions for the MapScreen
 const MapScreenNavigationOptions = ({navigation}) => ({
-  // Use custom component for header of screen
-  header: (
-    <TopTab
-      onFilterIconPress={() => {
-        navigation.navigate('Filter', {
-          // value of originTab is given by MainTabsNavigationOptions
-          // when navigating to Map screen from some Tab
-          originTab: navigation.state.params.originTab,
-        });
-      }}
-      onMapIconPress={() => navigation.goBack()}
-      onSearchBarFocus={() => navigation.navigate('Search')}
-      isMapScreen={true}
-    />
-  ),
+  // Mao screen doesnt use a header
+  header: null,
 });
 
 // Global config options for the MainStackNavigator

@@ -155,10 +155,20 @@ const MainTabNavigator = createBottomTabNavigator(
 );
 
 // TabWrapperStackNavigator Stack Navigator
-// A stack navigator that wraps around MainTabNavigator
+// A stack navigator that wraps around MainTabNavigator and the map Screen
+// Will be simplified when react-navigation V5 is released
 //
 // Why?:
-// Used to provide a custom header object SHARED between the MainTabNavigator and the mapScreen
+// In V4, custom animations are specified on a Navigator basis, NOT a screen basis without getting complicated.
+// Therefore, TabWrapperStackNavigator contains the Map Screen and the MainTabNavigator and is used to specify
+// custom animations for the map Screen
+//
+// Without this wrapper stack navigator, the map screen would have been placed in the MainStackNavigator
+// However, as of navigation @V4, there would be no SIMPLE way to specify a different custom animation for the map transition.
+// It would share to use the same transition as other top-level screens in MainStackNavigator
+//
+// TLDR: The only SIMPLE way as of V4 to add DIFFERENT custom transition animations to the map screen is via
+// a wrapper navigator, isolating the map screen from the rest of the top-level screens
 export const TabWrapperStackNavigator = createStackNavigator(
   {
     TabWrapper: {

@@ -1,13 +1,10 @@
-import React, { Component } from 'react';
-import {View} from 'react-native';
+import React, {Component} from 'react';
 import {IconButton, SearchBar} from '../elements';
 import PropTypes from 'prop-types';
 import {SafeAreaView} from 'react-navigation';
 import styles from './style';
 
-
 export default class TopTab extends Component {
-
   static propTypes = {
     // CallBack function that fires on Press events for the filterIcon
     onFilterIconPress: PropTypes.func.isRequired,
@@ -16,10 +13,7 @@ export default class TopTab extends Component {
     onMapIconPress: PropTypes.func.isRequired,
     // CallBack function that fires on focus events for the SearchBar
     onSearchBarFocus: PropTypes.func.isRequired,
-    // True when we are viewing the TopTab as a header for the
-    // Map Screen (see routerConfig.js)
-    isMapScreen: PropTypes.bool.isRequired
-  }
+  };
 
   /**
    * [Renders a Tab at the top of the Screen containing
@@ -37,25 +31,14 @@ export default class TopTab extends Component {
           iconStyle={styles.filtericon}
           onIconPress={this.props.onFilterIconPress}
         />
-        <SearchBar
-          onSearchBarFocus={this.props.onSearchBarFocus}
-        />
+        <SearchBar onSearchBarFocus={this.props.onSearchBarFocus} />
         <IconButton
           containerStyle={{}}
-          iconSource={
-            this.props.isMapScreen
-              ? require('../images/list-icon.png')
-              : require('../images/map-icon.png')
-          }
-          iconStyle={
-            this.props.isMapScreen
-              ? styles.listIcon
-              : styles.mapicon
-          }
+          iconSource={require('../images/map-icon.png')}
+          iconStyle={styles.mapicon}
           onIconPress={this.props.onMapIconPress}
         />
       </SafeAreaView>
     );
   }
-
 }

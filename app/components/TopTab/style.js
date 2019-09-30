@@ -30,11 +30,6 @@ const styles = StyleSheet.create({
     width: 25,
     height: 25,
   },
-  listIcon: {
-    width: 25,
-    height: 16,
-  }
 });
-
 
 export default styles;

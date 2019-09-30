@@ -74,7 +74,7 @@ export const TabWrapperTransitionConfig = () => {
 };
 
 // Transition config for MainStackNavigator
-// Filter Screen slider in from left to right
+// Filter Screen slider in from bottom to top
 export const MainTransitionConfig = () => {
   return {
     transitionSpec: {
