@@ -44,12 +44,14 @@ import DetailScreen from '../screens/DetailScreen';
 import OfferCodeScreen from '../screens/OfferCodeScreen';
 
 // import screens used by the Catalog Tab Navigator
-import AllDrinksScreen from '../screens/AllDrinksScreen';
-import BeersScreen from '../screens/BeersScreen';
-import CocktailsScreen from '../screens/CocktailsScreen';
-import ShotsScreen from '../screens/ShotsScreen';
-import SpecialsScreen from '../screens/SpecialsScreen';
-import SpiritsScreen from '../screens/SpiritsScreen';
+import {
+  AllDrinksScreen,
+  BeersScreen,
+  CocktailsScreen,
+  ShotsScreen,
+  SpecialsScreen,
+  SpiritsScreen,
+} from '../screens/CatalogTabScreens';
 
 // Import router configuration options from /routerConfig.js
 import {
