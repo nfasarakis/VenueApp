@@ -1,9 +1,6 @@
 import {StyleSheet} from 'react-native';
 
-// CSS styles for App component
 const styles = StyleSheet.create({
-  // The main Screen container
-  // Parent of all screens in the App
   container: {
     paddingLeft: 15,
     paddingRight: 15,
