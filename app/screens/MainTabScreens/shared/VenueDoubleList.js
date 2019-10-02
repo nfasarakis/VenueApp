@@ -240,7 +240,7 @@ export function VenueDoubleList({
           renderItem={({item}) => (
             <View style={styles.horFlatListItems}>
               <HorizontalListCard
-                store={item}
+                venue={item}
                 onPress={() => {
                   navigateToVenue(navigationProp, item, horizontalListItems);
                 }}

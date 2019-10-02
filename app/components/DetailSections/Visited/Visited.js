@@ -62,7 +62,7 @@ export default class Visited extends Component {
             // Each item in the list is a RecommendedPreview component
             ({item}) =>
               <View style={styles.vertFlatListItems}>
-                <HorizontalListCard store={item} onPress={()=>{this.viewVenue(item);}}/>
+                <HorizontalListCard venue={item} onPress={()=>{this.viewVenue(item);}}/>
               </View>
           }
         />
