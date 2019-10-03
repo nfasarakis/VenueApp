@@ -83,14 +83,14 @@ export default function HorizontalListCard(props) {
    *  - An Image component respresenting the rating in stars
    *  - A absolutely positioned set of Image components and Text components for the gender ratio]
    *
-   * @return {[TouchableOpacity]} [TouchableOpacity respresenting the RecommendedPreview component]
+   * @return {[TouchableOpacity]} [TouchableOpacity respresenting the HorizontalListCard component]
    */
   return (
     <TouchableOpacity
       onPress={props.onPress}
       activeOpacity={0.7}
       style={styles.container}>
-      {/*The main image of the detail Screen*/}
+      {/*The hero main image*/}
       {getStyledHeroImage_local()}
 
       {/*venue info container*/}
