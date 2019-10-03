@@ -270,7 +270,7 @@ export function VenueDoubleList({
         renderItem={({item}) => (
           <View style={styles.vertFlatListItems}>
             <VerticalListCard
-              store={item}
+              venue={item}
               onPress={() => {
                 navigateToVenue(navigationProp, item, verticalListItems);
               }}
@@ -359,7 +359,7 @@ export function VenueDoubleListTall({
         renderItem={({item}) => (
           <View style={styles.vertFlatListItems}>
             <VerticalListCard
-              store={item}
+              venue={item}
               onPress={() => {
                 navigateToVenue(navigationProp, item, verticalListItems);
               }}
@@ -371,10 +371,8 @@ export function VenueDoubleListTall({
   );
 }
 
-// CSS styles for App component
+// CSS styles
 const styles = StyleSheet.create({
-  // The main Screen container
-  // Parent of all screens in the App
   container: {
     // Takes up all space horizontally and verticaly
     flex: 1,

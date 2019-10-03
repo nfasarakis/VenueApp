@@ -1,160 +1,137 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {TouchableOpacity, Text, View, Image} from 'react-native';
-// Jim, this package has native dependencies
-// You need to link it with react-native link
 import LinearGradient from 'react-native-linear-gradient';
 import PropTypes from 'prop-types';
 import styles from './style';
+// Images used for rating in HorizontalListCard
+import one_star from '../images/rating-icon-white.png';
+import two_star from '../images/rating-icon-white.png';
+import three_star from '../images/rating-icon-white.png';
+import four_star from '../images/rating-icon-white.png';
+import five_star from '../images/rating-icon-white.png';
+// Images used for genders in HorizontalListCard
+import manIcon from '../images/man-icon-card.png';
+import womanIcon from '../images/woman-icon-card.png';
 
-export default class VerticalListCard extends Component {
-
-  static propTypes = {
-    // A JSON formated store/venue
-    store: PropTypes.object.isRequired,
-    // Callback for press events on TouchableOpacity component representing a StorePreview
-    onPress: PropTypes.func.isRequired,
-  }
+/**
+ * VerticalListCard: Card Component representaing a venue. Contains a hero image
+ *                   along with relevant information (rating, distance, location etc).
+ *                   Used in MainTabScreens/shared to generate the vertical image list of venues
+ *
+ * The VerticalListCard Component receives the following props
+ *  @param {object} venue JSON formatted venue containing all venue info
+ *  @param {function} onPress  Callback for press events on  VerticalListCard
+ *
+ * @return {TouchableOpacity} A carl-styled clickable view containing the venue
+ *                            hero image & associated info
+ */
+export default function VerticalListCard(props) {
+  /**
+   * Loads network image corresponding to venue passed as prop in VerticalListCard.
+   * Uses the media property of the passed in props.venue.
+   *
+   * @return {<Image>} Styled Image component respresenting the main venue image
+   */
+  const getStyledHeroImage = () => (
+    <Image style={styles.mainImage} source={{uri: props.venue.media[0]}} />
+  );
 
   /**
-   * USED ONLY IF LOADING MAIN STORE IMAGES FROM LOCAL STORAGE
-   * [Uses the store.name property of the prop pased down from the parent component
-   * to return the corresponding Image component respresenting the store]
-   * @return {[Image]} [Image component respresenting the main store image]
+   * LOCAL_DEV ONLY
+   * Loads local image corresponding to venue passed as prop in VerticalListCard
+   * Requires the images statistically
+   *
+   * @return {<Image>} Styled Image component respresenting the main venue image
    */
-   displayMainImage_local = () => {
-     // Note: this way is dumb but string in require(*) has to be know statisticaly
-     //  accoriding to the react-native docs
-     if (this.props.store.name == "Johnny Deppy Bar") {
-       return (<Image style={styles.mainImage} source={require('../../../jsondata_DEV/images/ChIJhyeNH0SYoRQRkMU4ZDVfQ78_0.jpeg')}/>)
-     }
-     if (this.props.store.name == "Darwin koffie-bar") {
-       return (<Image style={styles.mainImage} source={require('../../../jsondata_DEV/images/ChIJIxQjCPmYoRQRNKkNlR9hS_0_0.jpeg')}/>)
-     }
-     if (this.props.store.name == "Cibo Cafe-Bar-Restaurant") {
-       return (<Image style={styles.mainImage} source={require('../../../jsondata_DEV/images/ChIJg0ZZPDyZoRQRiyO8hxi5cvM_0.jpeg')}/>)
-     }
-     if (this.props.store.name == "Maimou Bar") {
-       return (<Image style={styles.mainImage} source={require('../../../jsondata_DEV/images/ChIJtzAWKPiYoRQRYYaK5sQMTS8_0.jpeg')}/>)
-     }
-     if (this.props.store.name == "Life Bar") {
-       return (<Image style={styles.mainImage} source={require('../../../jsondata_DEV/images/ChIJwVK2ePeYoRQRY24pjGswLto_0.jpeg')}/>)
-     }
-     if (this.props.store.name == "home") {
-       return (<Image style={styles.mainImage} source={require('../../../jsondata_DEV/images/randomNormieKeyReeee_0.jpeg')}/>)
-     }
-   }
-
-   /**
-    * USED ONLY IF LOADING MAIN STORE IMAGES FROM WEB SERVER
-    * [Uses the store.name property of the prop pased down from the parent component
-    * to return the corresponding Image component respresenting the store]
-    * @return {[Image]} [Image component respresenting the main store image]
-    */
-    displayMainImage_url = () => {
+  const getStyledHeroImage_local = () => {
+    // Store venue-name/local url key/value pairs. LOCAL_DEV ONLY
+    const HeroImageLocal = {
+      'Johnny Deppy Bar': require('../../../jsondata_DEV/images/ChIJhyeNH0SYoRQRkMU4ZDVfQ78_0.jpeg'),
+      'Darwin koffie-bar': require('../../../jsondata_DEV/images/ChIJIxQjCPmYoRQRNKkNlR9hS_0_0.jpeg'),
+      'Cibo Cafe-Bar-Restaurant': require('../../../jsondata_DEV/images/ChIJg0ZZPDyZoRQRiyO8hxi5cvM_0.jpeg'),
+      'Maimou Bar': require('../../../jsondata_DEV/images/ChIJtzAWKPiYoRQRYYaK5sQMTS8_0.jpeg'),
+      'Life Bar': require('../../../jsondata_DEV/images/ChIJwVK2ePeYoRQRY24pjGswLto_0.jpeg'),
+      home: require('../../../jsondata_DEV/images/randomNormieKeyReeee_0.jpeg'),
+    };
+    // Return image corresponding to venue passed as prop in VerticalListCard
+    return (
       <Image
         style={styles.mainImage}
-        source={{uri: this.props.store.media[0]}}
+        source={HeroImageLocal[props.venue.name]}
       />
-    }
+    );
+  };
 
   /**
-   * [Uses the store.rating property of the prop pased down from the parent component
-   * to return the corresponding Image component respresenting the star rating]
+   * Loads local image corresponding to rating of venue passed as prop in VerticalListCard
+   * Uses the rating property of the passed in props.venue.
+   *
    * @return {[Image]} [Image component respresenting star rating]
    */
-  displayRatingStars = () => {
-    // Note: this way is dumb but string in require(*) has to be know statisticaly
-    //  accoriding to the react-native docs
-    if (this.props.store.rating <= 0.5) {
-      return (<Image style={styles.rating} source={require('../images/rating-icon-white.png')}/>);
-    }
-    if (this.props.store.rating <= 1) {
-      return (<Image style={styles.rating} source={require('../images/rating-icon-white.png')}/>);
-    }
-    if (this.props.store.rating <= 1.5) {
-      return (<Image style={styles.rating} source={require('../images/rating-icon-white.png')}/>);
-    }
-    if (this.props.store.rating <= 2) {
-      return (<Image style={styles.rating} source={require('../images/rating-icon-white.png')}/>);
-    }
-    if (this.props.store.rating <= 2.5) {
-      return (<Image style={styles.rating} source={require('../images/rating-icon-white.png')}/>);
-    }
-    if (this.props.store.rating <= 3) {
-      return (<Image style={styles.rating} source={require('../images/rating-icon-white.png')}/>);
-    }
-    if (this.props.store.rating <= 3.5) {
-      return (<Image style={styles.rating} source={require('../images/rating-icon-white.png')}/>);
-    }
-    if (this.props.store.rating <= 4) {
-      return (<Image style={styles.rating} source={require('../images/rating-icon-white.png')}/>);
-    }
-    if (this.props.store.rating <= 4.5) {
-      return (<Image style={styles.rating} source={require('../images/rating-icon-white.png')}/>);
-    }
-    if (this.props.store.rating <= 5) {
-      return (<Image style={styles.rating} source={require('../images/rating-icon-white.png')}/>);
-    }
-  }
+  const displayRatingStars = () => {
+    let starImages = [one_star, two_star, three_star, four_star, five_star];
+    let venueRating = Math.ceil(props.venue.rating);
+    return <Image style={styles.rating} source={starImages[venueRating - 1]} />;
+  };
 
   /**
-   * [Renders a preview of each store containing information in props
-   * passed down from parent StoreList component. Contains
-   * A) An Image component that displays the store/venue
-   * A.1) An absolutely positioned Text component containing a label for offers
-   * A.2) An absolutely positioned Image component respresenting a favorite option
-   * B) A Text component containing the store/venue name
-   * C) An Image and Text component containing the address of the store/venue
-   * D) An Image and Text component respresenting the operating hours
-   * E) An Image component respresenting the rating in stars
-   * F) A absolutely positioned set of Image components and Text components for the gender ratio]
-   * @return {[TouchableOpacity]} [TouchableOpacity respresenting the StorePreview component]
+   * [Renders a preview of each venue containing information in props
+   *  - An Image component that acts as the hero image for the venue
+   *  - An absolutely positioned Text component containing a label for offers <-- Not added yet
+   *  - A Text component containing the distance of the venue for the user's current location
+   *  - A text component containing a match via ranking algorithm <-- Not implemented yet
+   *  - An Image component respresenting the rating in stars
+   *  - A absolutely positioned set of Image components and Text components for the gender ratio]
+   *
+   * @return {[TouchableOpacity]} [TouchableOpacity respresenting the VerticalListCard component]
    */
-  render() {
-    return (
-      <TouchableOpacity
-        onPress={this.props.onPress}
-        activeOpacity={0.7}
-        style={styles.container}
-      >
+  return (
+    <TouchableOpacity
+      onPress={props.onPress}
+      activeOpacity={0.7}
+      style={styles.container}>
+      {/*The main image of the detail Screen*/}
+      {getStyledHeroImage_local()}
 
-        {/*The main image of the detail Screen*/}
-        {this.displayMainImage_local()}
+      {/*venue info container*/}
+      {/*uses linear gradient component*/}
+      <LinearGradient
+        colors={['transparent', 'black']}
+        style={styles.venueInfoContainer}>
+        {/*venue name*/}
+        <Text style={styles.venueName}>{props.venue.name}</Text>
 
-        {/*venue info container*/}
-        {/*uses linear gradient component*/}
-        <LinearGradient colors={['transparent', 'black']} style={styles.venueInfoContainer}>
-          <Text style={styles.venueName}>
-            {this.props.store.name}
-          </Text>
-          <View style={styles.venueInfoRow}>
-            <Text style={styles.infoText}>
-              1.5 Km
+        {/*distance, rating, match, genders*/}
+        <View style={styles.venueInfoRow}>
+          {/*DEV_NOTE: distance hardcoded temporarily*/}
+          <Text style={styles.infoText}>1.5 Km</Text>
+
+          {/*DEV_NOTE: match % hardcoded temporarily*/}
+          <Text style={styles.infoText}>98% match</Text>
+
+          {/*venue rating*/}
+          {displayRatingStars()}
+
+          <View style={styles.inlineGenderIconContainer}>
+            {/*number of men at venue*/}
+            <Image style={styles.cardGenderIcon} source={manIcon} />
+            <Text style={[styles.genderNumber, styles.genderNumberMan]}>
+              {props.venue.people.MenAvg}
             </Text>
-            <Text style={styles.infoText}>
-              98% match
+            {/*number of women at venue*/}
+            <Image style={styles.cardGenderIcon} source={womanIcon} />
+            <Text style={styles.genderNumber}>
+              {props.venue.people.WomenAvg}
             </Text>
-            {this.displayRatingStars()}
-            <View style={styles.inlineGenderIconContainer}>
-              <Image
-                style={styles.cardGenderIcon}
-                source={require('../images/man-icon-card.png')}
-              />
-              <Text style={[styles.genderNumber, styles.genderNumberMan]}>
-                {this.props.store.people.MenAvg}
-              </Text>
-              <Image
-                style={styles.cardGenderIcon}
-                source={require('../images/woman-icon-card.png')}
-              />
-              <Text style={styles.genderNumber}>
-                {this.props.store.people.WomenAvg}
-              </Text>
-            </View>
           </View>
-        </LinearGradient>
-
-      </TouchableOpacity>
-    );
-  }
+        </View>
+      </LinearGradient>
+    </TouchableOpacity>
+  );
 }
+
+// PropTypes
+VerticalListCard.propTypes = {
+  venue: PropTypes.object.isRequired,
+  onPress: PropTypes.func.isRequired,
+};
