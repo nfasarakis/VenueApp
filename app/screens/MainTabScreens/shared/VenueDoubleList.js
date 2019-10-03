@@ -15,8 +15,8 @@ import beakon from '../../../components/images/beakon-white.png';
 const navigateToVenue = (navigationProp, venue, venueList) => {
   // Clicking this will navigate be to the VenueStackNavigator.
   // Since the VenueStackNavigator contains as a child another
-  // navigatitem (see router.js), specifically VenueDetailStackNavigator,
-  // we need a way to properlty navigate to the inner navigator with the
+  // navigatitor (see router.js), specifically VenueDetailStackNavigator,
+  // we need a way to properly navigate to the inner navigator with the
   // correct parameters.
   //
   // This can be achieved with the action property of the navigate function
@@ -198,7 +198,24 @@ const generateVerticTitle = (name, area) => {
 };
 
 /**
+ * VenueDoubleList: Component that combines new FlatList components, one horizontal and
+ *                  one vertical, to display props.horizontalListItems & props.verticalListItems
+ *                  resp.
+ *                  The horizontal FlatList acts as a header to the vertical FlatList
+ *                  to achive custom scrolling behaviour, s.t the horizontal FlatList
+ *                  scrolls as an item of the VerticalListCard
+ *                  Used by the discover/offers screens
  *
+ * The VenueDoubleList Component receives the following props
+ *  @param {string} screenName String with the id of the screen/parent that displays the VenueDoubleList
+ *  @param {object} navigationProp  The navigation object passed via reactnavigation to
+ *                                  the VenueDoubleList component's parent screen.
+ *  @param {string} area String specifying what area the venues in VenuneDoubleList are
+ *                       located in. Used to generate helpfull text information
+ *  @param {Array} verticalListItems Array of items/venues to be displayed via the vertical FlatList
+ *  @param {Array} horizontalListItems Array of items/venues to be displayed via the horizontal FlatList
+ *
+ * @return {View} View composing the horizontal & vertical FlatList components as we as titles/subtitles for each
  */
 export function VenueDoubleList({
   screenName,
@@ -218,8 +235,8 @@ export function VenueDoubleList({
    * This allows the horizontal flatlist plus titles to scroll as an item of the vertical flatlist.
    * Demo it to see it in action.
    * I cannot think of another way to achieve this effect
-   * @return {<View>} A horizontal flatList composed with title and subtitles for itself and the vertical Flatlist it
-   *                  acts as a ListHeaderComponent prop for
+   * @return {<View>} A horizontal flatList composed with title and subtitles for itself as well as
+   *                  a title and subtitle for the vertical Flatlist it acts as a ListHeaderComponent prop for
    */
   const generateListHeaderComponent = () => {
     return (
@@ -283,7 +300,19 @@ export function VenueDoubleList({
 }
 
 /**
+ * VenueDoubleListTall: Like VenueDoubleList, but with different horizontal FlatList component
+ *                      Used by the visited/favourites screens
  *
+ * The VenueDoubleListTall Component receives the following props
+ *  @param {string} screenName String with the id of the screen/parent that displays the VenueDoubleList
+ *  @param {object} navigationProp  The navigation object passed via reactnavigation to
+ *                                  the VenueDoubleList component's parent screen.
+ *  @param {string} area String specifying what area the venues in VenuneDoubleList are
+ *                       located in. Used to generate helpfull text information
+ *  @param {Array} verticalListItems Array of items/venues to be displayed via the vertical FlatList
+ *  @param {Array} horizontalListItems Array of items/venues to be displayed via the horizontal FlatList
+ *
+ * @return {View} View composing the horizontal & vertical FlatList components as we as titles/subtitles for each
  */
 export function VenueDoubleListTall({
   screenName,
