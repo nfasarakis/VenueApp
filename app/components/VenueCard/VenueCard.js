@@ -1,33 +1,33 @@
 import React from 'react';
-import {TouchableOpacity, Text, View, Image} from 'react-native';
+import {TouchableOpacity, View, Text, Image} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import PropTypes from 'prop-types';
 import styles from './style';
-// Images used for rating in HorizontalListCard
+// Images used for rating in VenueCard
 import one_star from '../images/rating-icon-white.png';
 import two_star from '../images/rating-icon-white.png';
 import three_star from '../images/rating-icon-white.png';
 import four_star from '../images/rating-icon-white.png';
 import five_star from '../images/rating-icon-white.png';
-// Images used for genders in HorizontalListCard
+// Images used for genders in VenueCard
 import manIcon from '../images/man-icon-card.png';
 import womanIcon from '../images/woman-icon-card.png';
 
 /**
- * VerticalListCard: Card Component representaing a venue. Contains a hero image
- *                   along with relevant information (rating, distance, location etc).
- *                   Used in MainTabScreens/shared to generate the vertical image list of venues
+ * VenueCard: Card Component representaing a venue. Contains a hero image
+ *            along with relevant information (rating, distance, location etc).
+ *            Used in MainTabScreens/shared & /mapDisplay to generate the image list of venues
  *
- * The VerticalListCard Component receives the following props
+ * The VenueCard Component receives the following props
  *  @param {object} venue JSON formatted venue containing all venue info
- *  @param {function} onPress  Callback for press events on  VerticalListCard
+ *  @param {function} onPress  Callback for press events on VenueCard
  *
  * @return {TouchableOpacity} A carl-styled clickable view containing the venue
  *                            hero image & associated info
  */
-export default function VerticalListCard(props) {
+export default function VenueCard(props) {
   /**
-   * Loads network image corresponding to venue passed as prop in VerticalListCard.
+   * Loads network image corresponding to venue passed as prop in VenueCard.
    * Uses the media property of the passed in props.venue.
    *
    * @return {<Image>} Styled Image component respresenting the main venue image
@@ -38,7 +38,7 @@ export default function VerticalListCard(props) {
 
   /**
    * LOCAL_DEV ONLY
-   * Loads local image corresponding to venue passed as prop in VerticalListCard
+   * Loads local image corresponding to venue passed as prop in VenueCard
    * Requires the images statistically
    *
    * @return {<Image>} Styled Image component respresenting the main venue image
@@ -53,7 +53,7 @@ export default function VerticalListCard(props) {
       'Life Bar': require('../../../jsondata_DEV/images/ChIJwVK2ePeYoRQRY24pjGswLto_0.jpeg'),
       home: require('../../../jsondata_DEV/images/randomNormieKeyReeee_0.jpeg'),
     };
-    // Return image corresponding to venue passed as prop in VerticalListCard
+    // Return image corresponding to venue passed as prop in VenueCard
     return (
       <Image
         style={styles.mainImage}
@@ -63,7 +63,7 @@ export default function VerticalListCard(props) {
   };
 
   /**
-   * Loads local image corresponding to rating of venue passed as prop in VerticalListCard
+   * Loads local image corresponding to rating of venue passed as prop in VenueCard
    * Uses the rating property of the passed in props.venue.
    *
    * @return {[Image]} [Image component respresenting star rating]
@@ -83,14 +83,14 @@ export default function VerticalListCard(props) {
    *  - An Image component respresenting the rating in stars
    *  - A absolutely positioned set of Image components and Text components for the gender ratio]
    *
-   * @return {[TouchableOpacity]} [TouchableOpacity respresenting the VerticalListCard component]
+   * @return {[TouchableOpacity]} [TouchableOpacity respresenting the VenueCard component]
    */
   return (
     <TouchableOpacity
       onPress={props.onPress}
       activeOpacity={0.7}
       style={styles.container}>
-      {/*The main image of the detail Screen*/}
+      {/*The hero main image*/}
       {getStyledHeroImage_local()}
 
       {/*venue info container*/}
@@ -99,7 +99,7 @@ export default function VerticalListCard(props) {
         colors={['transparent', 'black']}
         style={styles.venueInfoContainer}>
         {/*venue name*/}
-        <Text style={styles.venueName}>{props.venue.name}</Text>
+        <Text style={styles.venueName}> {props.venue.name} </Text>
 
         {/*distance, rating, match, genders*/}
         <View style={styles.venueInfoRow}>
@@ -118,6 +118,7 @@ export default function VerticalListCard(props) {
             <Text style={[styles.genderNumber, styles.genderNumberMan]}>
               {props.venue.people.MenAvg}
             </Text>
+
             {/*number of women at venue*/}
             <Image style={styles.cardGenderIcon} source={womanIcon} />
             <Text style={styles.genderNumber}>
@@ -131,7 +132,7 @@ export default function VerticalListCard(props) {
 }
 
 // PropTypes
-VerticalListCard.propTypes = {
+VenueCard.propTypes = {
   venue: PropTypes.object.isRequired,
   onPress: PropTypes.func.isRequired,
 };

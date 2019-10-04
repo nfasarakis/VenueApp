@@ -1,11 +1,7 @@
 import React from 'react';
 import {View, Text, FlatList, StyleSheet} from 'react-native';
 import {NavigationActions} from 'react-navigation';
-import {
-  VerticalListCard,
-  HorizontalListCard,
-  TallSlimCard,
-} from '../../../components';
+import {VenueCard, TallSlimVenueCard} from '../../../components';
 import beakon from '../../../components/images/beakon-white.png';
 
 /**
@@ -255,8 +251,9 @@ export function VenueDoubleList({
             index,
           })}
           renderItem={({item}) => (
+            /*View applies container styles for re-usable VenueCard component*/
             <View style={styles.horFlatListItems}>
-              <HorizontalListCard
+              <VenueCard
                 venue={item}
                 onPress={() => {
                   navigateToVenue(navigationProp, item, horizontalListItems);
@@ -285,8 +282,9 @@ export function VenueDoubleList({
           index,
         })}
         renderItem={({item}) => (
+          /*View applies container styles for re-usable VenueCard component*/
           <View style={styles.vertFlatListItems}>
-            <VerticalListCard
+            <VenueCard
               venue={item}
               onPress={() => {
                 navigateToVenue(navigationProp, item, verticalListItems);
@@ -352,9 +350,10 @@ export function VenueDoubleListTall({
             index,
           })}
           renderItem={({item}) => (
+            /*View applies container styles for re-usable TallSlimVenueCard component*/
             <View
               style={[styles.horFlatListItems, styles.tallHorFlatListItems]}>
-              <TallSlimCard
+              <TallSlimVenueCard
                 name={item.name}
                 media={item.media}
                 iconSource={beakon}
@@ -386,8 +385,9 @@ export function VenueDoubleListTall({
           index,
         })}
         renderItem={({item}) => (
+          /*View applies container styles for re-usable VenueCard component*/
           <View style={styles.vertFlatListItems}>
-            <VerticalListCard
+            <VenueCard
               venue={item}
               onPress={() => {
                 navigateToVenue(navigationProp, item, verticalListItems);
@@ -449,7 +449,7 @@ const styles = StyleSheet.create({
     position: 'relative',
     // iOS only
     shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2}, // w moves shadow right, h moves shaddow down
+    shadowOffset: {width: 0, height: 2}, // w moves shadow right, h moves shadow down
     shadowOpacity: 0.4,
     shadowRadius: 4,
     // Android only

@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef} from 'react';
 import {View, FlatList} from 'react-native';
 import MapView from 'react-native-maps';
 import {Marker} from 'react-native-maps';
-import MapPreview from '../MapPreview';
+import VenueCard from '../VenueCard';
 import {TextButton} from '../elements';
 import PropTypes from 'prop-types';
 import {
@@ -245,9 +245,12 @@ export default function MapDisplay(props) {
             showsHorizontalScrollIndicator={false}
             data={activeVenues}
             onScrollEndDrag={handleScrollEnd}
-            renderItem={({item}) => {
-              return <MapPreview venue={item} onPress={() => {}} />;
-            }}
+            renderItem={({item}) => (
+              /*View applies container styles for re-usable VenueCard component*/
+              <View style={styles.mapFlatListItems}>
+                <VenueCard venue={item} onPress={() => {}} />
+              </View>
+            )}
           />
         </View>
       </View>

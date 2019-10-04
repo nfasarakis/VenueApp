@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {View, Text, FlatList} from 'react-native';
-import HorizontalListCard from '../../HorizontalListCard';
+import VenueCard from '../../VenueCard';
 import PropTypes from 'prop-types';
 import styles from './style';
 
@@ -62,7 +62,7 @@ export default class Visited extends Component {
             // Each item in the list is a RecommendedPreview component
             ({item}) =>
               <View style={styles.vertFlatListItems}>
-                <HorizontalListCard venue={item} onPress={()=>{this.viewVenue(item);}}/>
+                <VenueCard venue={item} onPress={()=>{this.viewVenue(item);}}/>
               </View>
           }
         />

@@ -1,5 +1,5 @@
-/* @flow */
 import {StyleSheet} from 'react-native';
+import config from '../../config';
 
 const styles = StyleSheet.create({
   container: {
@@ -49,6 +49,20 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     paddingTop: 10,
     paddingBottom: 10,
+  },
+  mapFlatListItems: {
+    width: config.dimensions.CARD_WIDTH_MAP,
+    height: config.dimensions.CARD_HEIGHT_MAP,
+    marginRight: 5,
+    marginLeft: 5,
+    position: 'relative',
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.4,
+    shadowRadius: 4,
+    // Android only
+    backgroundColor: 'white',
+    elevation: 5,
   },
 });
 
