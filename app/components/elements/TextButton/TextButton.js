@@ -1,36 +1,39 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {Text, TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './style';
 
-
-export default class TextButton extends Component {
-
-  static propTypes = {
-    // Optional custom style for the top-level TouchableOpacity component in render()
-    containerStyle: PropTypes.any,
-    // Optional custom style the Text component in render()
-    textStyle: PropTypes.any,
-    // String containing the text to appear in the button
-    title: PropTypes.string.isRequired,
-    // Event handler fired when button is pressed
-    onButtonPress: PropTypes.func,
-  }
-
+/**
+ * TextButton Component: Custom button with Text
+ *
+ * The extButton Component receives the following props
+ *  @param {object} containerStyle Optional custom style for the TouchableOpacity
+ *                                 acting as the button
+ *  @param {object} textStyle Optional custom style for the text of the button
+ *  @param {string} title Text that appears on the button
+ *  @param {function} onButtonPress OnPress event handler for the TextButton
+ *
+ * @return {[View]} A styled TouchableOpacity component respresenting a checkbox component
+ *                  with text on the left of the box
+ */
+export default function TextButton(props) {
   /**
-   * [Renders a TouchableOpacity component containing
-   * A) A text component]
-   * @return {[TouchableOpacity]} [TouchableOpacity component respresenting a text button]
+   * @return {[TouchableOpacity]} TouchableOpacity component respresenting a text button
    */
-  render() {
-    return (
-      <TouchableOpacity
-        style={this.props.containerStyle || styles.defaultContainerStyle}
-        onPress={this.props.onButtonPress}>
-        <Text style={this.props.textStyle || styles.defaultTextStyle}>
-          {this.props.title}
-        </Text>
-      </TouchableOpacity>
-    );
-  }
+  return (
+    <TouchableOpacity
+      style={props.containerStyle || styles.defaultContainerStyle}
+      onPress={props.onButtonPress}>
+      <Text style={props.textStyle || styles.defaultTextStyle}>
+        {props.title}
+      </Text>
+    </TouchableOpacity>
+  );
 }
+
+TextButton.propTypes = {
+  containerStyle: PropTypes.any,
+  textStyle: PropTypes.any,
+  title: PropTypes.string.isRequired,
+  onButtonPress: PropTypes.func,
+};

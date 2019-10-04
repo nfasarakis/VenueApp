@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontFamily: 'System',
     color: 'black',
-  }
+  },
 });
 
 export default styles;
