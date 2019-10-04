@@ -1,38 +1,43 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {View, Image, TextInput} from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './style';
+// Image used for the search glyph
+import searchGlyph from '../../images/search-glyph.png';
 
-export default class SearchBar extends Component {
-
-  static propTypes = {
-    // CallBack function that fires on focus events for the SearchBar
-    onSearchBarFocus: PropTypes.func.isRequired,
-  }
-
+/**
+ * SearchBar Component: A Custom searchbar that fires a callback when focused
+ *                      Used to launch the SearchScreen in screens/SearchScreen
+ *                      (i.e does not actually search)
+ *                      Used in /TopTab for building a custom header for routerConfig.js
+ *                      specifically for the MainTabNavigator.
+ *
+ * The SearchBar Component receives the following props
+ *  @param {function} onSearchBarFocus CallBack function that fires on focus events
+ *                                     for the SearchBar
+ *
+ * @return {[View]} A styled View component respresenting a searchbar
+ */
+export default function SearchBar(props) {
   /**
-   * [Renders a SearchBar component containing
-   * A) A Image component representing the search icon/glyph
-   * B) A TextInput component for accepting user input]
-   * @return {[View]} [View representing a SearchBar component]
+   * @return {[View]} View representing a SearchBar component
    */
-  render() {
-    return (
-      <View style={styles.container}>
-        <View style={styles.search}>
-          <Image
-            style={styles.searchicon}
-            source={require('../../images/search-glyph.png')}
-          />
-          <TextInput
-            style={styles.input}
-            onFocus={()=>this.props.onSearchBarFocus()}
-            underlineColorAndroid='transparent'
-            placeholder="Search around Athens"
-          />
-        </View>
+  return (
+    <View style={styles.container}>
+      <View style={styles.search}>
+        <Image style={styles.searchicon} source={searchGlyph} />
+        <TextInput
+          style={styles.input}
+          onFocus={() => props.onSearchBarFocus()}
+          underlineColorAndroid="transparent"
+          placeholder="Search around Athens"
+        />
       </View>
-    );
-  }
-
+    </View>
+  );
 }
+
+// PropTypes
+SearchBar.propTypes = {
+  onSearchBarFocus: PropTypes.func.isRequired,
+};

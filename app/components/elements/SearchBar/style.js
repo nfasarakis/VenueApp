@@ -3,12 +3,11 @@ import {StyleSheet} from 'react-native';
 const styles = StyleSheet.create({
   container: {
     // Make this container flex to fill available space
-    // Available space determined in TopBar.js CSS rules
     flex: 1,
     height: 25,
     // But limit max width
     maxWidth: 400,
-    // and add space around and container so it looks good
+    // Add margins
     marginLeft: 15,
     marginRight: 15,
   },
@@ -29,7 +28,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   searchicon: {
-    // Same as image relative dimensions
     width: 15,
     height: 15,
     // Space between image and search text
@@ -54,7 +52,7 @@ const styles = StyleSheet.create({
     //borderWidth: 2,
     //
     height: 40,
-  }
+  },
 });
 
 export default styles;
