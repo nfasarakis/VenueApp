@@ -1,58 +1,50 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {TouchableOpacity, Image, Text} from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './style';
+// Images used in CheckBox component
+import checked from '../images/checkboxChecked.png';
+import unchecked from '../images/checkbox.png';
 
-
-export default class CheckBox extends Component {
-
-  static propTypes = {
-    // Additional custom style for the TouchableOpacity component in render()
-    containerStyle: PropTypes.any,
-    // Additional custom style for the Text component in render()
-    textStyle: PropTypes.any,
-    // Content of the Text component in render()
-    title: PropTypes.string.isRequired,
-    // [0,1] number denoting if checkbox in render() is checked on not
-    isChecked: PropTypes.number.isRequired,
-    // OnPress event handler for TouchableOpacity component in render()
-    onIconPress: PropTypes.func.isRequired,
-  }
-
+/**
+ * CheckBox Component: Custom checkbox component
+ *
+ * The CheckBox Component receives the following props
+ *  @param {object} containerStyle Optional custom style for the TouchableOpacity
+ *                                 acting as the checkbox container
+ *  @param {object} textStyle Optional custom style for the text left of the checkbox
+ *  @param {string} title Text that appears left of the checkbox
+ *  @param {boolean} isChecked Boolean specifying if checkbox should render as checked on not
+ *  @param {function} onIconPress OnPress event handler for the CheckBox component
+ *
+ * @return {[View]} A styled TouchableOpacity component respresenting a checkbox component
+ *                  with text on the left of the box
+ */
+export default function CheckBox(props) {
   /**
-   * [Selects Image component source property value corresponding to either
-   * a checked checkbox or unchecked checkbox image]
-   * @param  {number} isChecked
-   * [1 for checked image checkbox, 0 for unchecked image checkbox]
-   * @return {[object]}
-   * [corrsponding image source property]
+   * @return {[TouchableOpacity]} TouchableOpacity component respresenting a checkbox
    */
-  selectIconSource = (isChecked) => {
-    return (isChecked)
-      ? require('../images/checkboxChecked.png')
-      : require('../images/checkbox.png');
-  }
-
-  /**
-   * [Renders a touchable opacity component containing
-   * A) A Image compoment corresponding to a checkbox
-   * B) A Text component containing the checkbox label]
-   * @return {[TouchableOpacity]} [TouchableOpacity component respresenting a checkbox]
-   */
-  render() {
-    return (
-      <TouchableOpacity
-        activeOpacity={0.5}
-        style={[this.props.containerStyle, styles.defaultContainerStyle]}
-        onPress={this.props.onIconPress}>
-        <Image
-          style={styles.iconStyle}
-          source={this.selectIconSource(this.props.isChecked)}
-        />
-        <Text style={this.props.textStyle || styles.defaultTextStyle}>
-          {this.props.title}
-        </Text>
-      </TouchableOpacity>
-    );
-  }
+  return (
+    <TouchableOpacity
+      activeOpacity={0.5}
+      style={[props.containerStyle, styles.defaultContainerStyle]}
+      onPress={props.onIconPress}>
+      <Image
+        style={styles.iconStyle}
+        source={props.isChecked ? checked : unchecked}
+      />
+      <Text style={props.textStyle || styles.defaultTextStyle}>
+        {props.title}
+      </Text>
+    </TouchableOpacity>
+  );
 }
+
+//PropTypes
+CheckBox.propTypes = {
+  containerStyle: PropTypes.any,
+  textStyle: PropTypes.any,
+  title: PropTypes.string.isRequired,
+  isChecked: PropTypes.number.isRequired,
+  onIconPress: PropTypes.func.isRequired,
+};

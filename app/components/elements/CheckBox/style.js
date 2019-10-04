@@ -4,7 +4,7 @@ const styles = StyleSheet.create({
   // Default style for the touchable container
   defaultContainerStyle: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   // Default style for the text next to the checkbox
   defaultTextStyle: {
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     width: 15,
     height: 15,
     marginRight: 10,
-  }
+  },
 });
 
 export default styles;
