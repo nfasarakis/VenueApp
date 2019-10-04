@@ -246,7 +246,7 @@ export default function MapDisplay(props) {
             data={activeVenues}
             onScrollEndDrag={handleScrollEnd}
             renderItem={({item}) => {
-              return <MapPreview store={item} onPress={() => {}} />;
+              return <MapPreview venue={item} onPress={() => {}} />;
             }}
           />
         </View>

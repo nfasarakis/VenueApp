@@ -1,173 +1,138 @@
-/* MapPreview for now only contains what
- * RecommendedPreview does. If RecommendedPreview
- * stays the same, this folder (MapPreview) can
- * be deleted.
- *
- */
-import React, { Component } from 'react';
+import React from 'react';
 import {TouchableOpacity, View, Text, Image} from 'react-native';
-// Jim, this package has native dependencies
-// You need to link it with react-native link
 import LinearGradient from 'react-native-linear-gradient';
 import PropTypes from 'prop-types';
 import styles from './style';
+// Images used for rating in HorizontalListCard
+import one_star from '../images/rating-icon-white.png';
+import two_star from '../images/rating-icon-white.png';
+import three_star from '../images/rating-icon-white.png';
+import four_star from '../images/rating-icon-white.png';
+import five_star from '../images/rating-icon-white.png';
+// Images used for genders in HorizontalListCard
+import manIcon from '../images/man-icon-card.png';
+import womanIcon from '../images/woman-icon-card.png';
 
-export default class RecommendedPreview extends Component {
+/**
+ * MapPreview: Card Component representaing a venue on the map. Contains a hero image
+ *             along with relevant information (rating, distance, location etc).
+ *             Used in /MapDisplay to generate the image list of venues under the map
+ *
+ * The MapPreview Component receives the following props
+ *  @param {object} venue JSON formatted venue containing all venue info
+ *  @param {function} onPress  Callback for press events on MapPreview
+ *
+ * @return {TouchableOpacity} A carl-styled clickable view containing the venue
+ *                            hero image & associated info
+ */
+export default function MapPreview(props) {
+  /**
+   * Loads network image corresponding to venue passed as prop in MapPreview.
+   * Uses the media property of the passed in props.venue.
+   *
+   * @return {<Image>} Styled Image component respresenting the main venue image
+   */
+  const getStyledHeroImage = () => (
+    <Image style={styles.mainImage} source={{uri: props.venue.media[0]}} />
+  );
 
-   static propTypes = {
-     // A JSON formated store/venue
-     store: PropTypes.object.isRequired,
-     // Callback for press events on TouchableOpacity component representing a StorePreview
-     onPress: PropTypes.func.isRequired,
-   }
+  /**
+   * LOCAL_DEV ONLY
+   * Loads local image corresponding to venue passed as prop in MapPreview
+   * Requires the images statistically
+   *
+   * @return {<Image>} Styled Image component respresenting the main venue image
+   */
+  const getStyledHeroImage_local = () => {
+    // Store venue-name/local url key/value pairs. LOCAL_DEV ONLY
+    const HeroImageLocal = {
+      'Johnny Deppy Bar': require('../../../jsondata_DEV/images/ChIJhyeNH0SYoRQRkMU4ZDVfQ78_0.jpeg'),
+      'Darwin koffie-bar': require('../../../jsondata_DEV/images/ChIJIxQjCPmYoRQRNKkNlR9hS_0_0.jpeg'),
+      'Cibo Cafe-Bar-Restaurant': require('../../../jsondata_DEV/images/ChIJg0ZZPDyZoRQRiyO8hxi5cvM_0.jpeg'),
+      'Maimou Bar': require('../../../jsondata_DEV/images/ChIJtzAWKPiYoRQRYYaK5sQMTS8_0.jpeg'),
+      'Life Bar': require('../../../jsondata_DEV/images/ChIJwVK2ePeYoRQRY24pjGswLto_0.jpeg'),
+      home: require('../../../jsondata_DEV/images/randomNormieKeyReeee_0.jpeg'),
+    };
+    // Return image corresponding to venue passed as prop in MapPreview
+    return (
+      <Image
+        style={styles.mainImage}
+        source={HeroImageLocal[props.venue.name]}
+      />
+    );
+  };
 
-   /**
-    * USED ONLY IF LOADING MAIN STORE IMAGES FROM LOCAL STORAGE
-    * [Uses the store.name property of the prop pased down from the parent component
-    * to return the corresponding Image component respresenting the store]
-    * @return {[Image]} [Image component respresenting the main store image]
-    */
-    displayMainImage_local = () => {
-      // Note: this way is dumb but string in require(*) has to be know statisticaly
-      //  accoriding to the react-native docs
-      if (this.props.store.name == "Johnny Deppy Bar") {
-        return (<Image style={styles.mainImage} source={require('../../../jsondata_DEV/images/ChIJhyeNH0SYoRQRkMU4ZDVfQ78_0.jpeg')}/>)
-      }
-      if (this.props.store.name == "Darwin koffie-bar") {
-        return (<Image style={styles.mainImage} source={require('../../../jsondata_DEV/images/ChIJIxQjCPmYoRQRNKkNlR9hS_0_0.jpeg')}/>)
-      }
-      if (this.props.store.name == "Cibo Cafe-Bar-Restaurant") {
-        return (<Image style={styles.mainImage} source={require('../../../jsondata_DEV/images/ChIJg0ZZPDyZoRQRiyO8hxi5cvM_0.jpeg')}/>)
-      }
-      if (this.props.store.name == "Maimou Bar") {
-        return (<Image style={styles.mainImage} source={require('../../../jsondata_DEV/images/ChIJtzAWKPiYoRQRYYaK5sQMTS8_0.jpeg')}/>)
-      }
-      if (this.props.store.name == "Life Bar") {
-        return (<Image style={styles.mainImage} source={require('../../../jsondata_DEV/images/ChIJwVK2ePeYoRQRY24pjGswLto_0.jpeg')}/>)
-      }
-      if (this.props.store.name == "home") {
-        return (<Image style={styles.mainImage} source={require('../../../jsondata_DEV/images/randomNormieKeyReeee_0.jpeg')}/>)
-      }
-    }
+  /**
+   * Loads local image corresponding to rating of venue passed as prop in MapPreview
+   * Uses the rating property of the passed in props.venue.
+   *
+   * @return {[Image]} [Image component respresenting star rating]
+   */
+  const displayRatingStars = () => {
+    let starImages = [one_star, two_star, three_star, four_star, five_star];
+    let venueRating = Math.ceil(props.venue.rating);
+    return <Image style={styles.rating} source={starImages[venueRating - 1]} />;
+  };
 
-    /**
-     * USED ONLY IF LOADING MAIN STORE IMAGES FROM WEB SERVER
-     * [Uses the store.name property of the prop pased down from the parent component
-     * to return the corresponding Image component respresenting the store]
-     * @return {[Image]} [Image component respresenting the main store image]
-     */
-     displayMainImage_url = () => {
-       <Image
-         style={styles.mainImage}
-         source={{uri: this.props.store.media[0]}}
-       />
-     }
+  /**
+   * [Renders a preview of each venue containing information in props
+   *  - An Image component that acts as the hero image for the venue
+   *  - An absolutely positioned Text component containing a label for offers <-- Not added yet
+   *  - A Text component containing the distance of the venue for the user's current location
+   *  - A text component containing a match via ranking algorithm <-- Not implemented yet
+   *  - An Image component respresenting the rating in stars
+   *  - A absolutely positioned set of Image components and Text components for the gender ratio]
+   *
+   * @return {[TouchableOpacity]} [TouchableOpacity respresenting the MapPreview component]
+   */
+  return (
+    <TouchableOpacity
+      onPress={props.onPress}
+      activeOpacity={0.7}
+      style={styles.container}>
+      {/*The hero main image*/}
+      {getStyledHeroImage_local()}
 
-   /**
-    * [Uses the store.rating property of the prop pased down from the parent component
-    * to return the corresponding Image component respresenting the star rating]
-    * @return {[Image]} [Image component respresenting star rating]
-    */
-   displayRatingStars = () => {
-     // Note: this way is dumb but string in require(*) has to be know statisticaly
-     //  accoriding to the react-native docs
-     if (this.props.store.rating <= 0.5) {
-       return (<Image style={styles.rating} source={require('../images/rating-icon-white.png')}/>);
-     }
-     if (this.props.store.rating <= 1) {
-       return (<Image style={styles.rating} source={require('../images/rating-icon-white.png')}/>);
-     }
-     if (this.props.store.rating <= 1.5) {
-       return (<Image style={styles.rating} source={require('../images/rating-icon-white.png')}/>);
-     }
-     if (this.props.store.rating <= 2) {
-       return (<Image style={styles.rating} source={require('../images/rating-icon-white.png')}/>);
-     }
-     if (this.props.store.rating <= 2.5) {
-       return (<Image style={styles.rating} source={require('../images/rating-icon-white.png')}/>);
-     }
-     if (this.props.store.rating <= 3) {
-       return (<Image style={styles.rating} source={require('../images/rating-icon-white.png')}/>);
-     }
-     if (this.props.store.rating <= 3.5) {
-       return (<Image style={styles.rating} source={require('../images/rating-icon-white.png')}/>);
-     }
-     if (this.props.store.rating <= 4) {
-       return (<Image style={styles.rating} source={require('../images/rating-icon-white.png')}/>);
-     }
-     if (this.props.store.rating <= 4.5) {
-       return (<Image style={styles.rating} source={require('../images/rating-icon-white.png')}/>);
-     }
-     if (this.props.store.rating <= 5) {
-       return (<Image style={styles.rating} source={require('../images/rating-icon-white.png')}/>);
-     }
-   }
+      {/*venue info container*/}
+      {/*uses linear gradient component*/}
+      <LinearGradient
+        colors={['transparent', 'black']}
+        style={styles.venueInfoContainer}>
+        {/*venue name*/}
+        <Text style={styles.venueName}> {props.venue.name} </Text>
 
-   /**
-    * [Handles presses on TouchableOpacity components representing the RecommendedPreview
-    * ]
-    */
-   handlePress = () => {
-     this.props.onPress(this.props.store.key);
-   }
+        {/*distance, rating, match, genders*/}
+        <View style={styles.venueInfoRow}>
+          {/*DEV_NOTE: distance hardcoded temporarily*/}
+          <Text style={styles.infoText}>1.5 Km</Text>
 
-   /**
-    * [Renders a preview of each store containing information in props
-    * passed down from parent StoreList component. Contains
-    * A) An Image component that displays the store/venue
-    * A.1) An absolutely positioned Text component containing a label for offers
-    * A.2) An absolutely positioned Image component respresenting a favorite option
-    * B) A Text component containing the store/venue name
-    * C) A text component containing the address of the store/venue
-    * E) An Image component respresenting the rating in stars
-    * F) A absolutely positioned set of Image components and Text components for the gender ratio]
-    * @return {[TouchableOpacity]} [TouchableOpacity respresenting the RecommendedPreview component]
-    */
-   render() {
-     return (
-       <TouchableOpacity
-         onPress={this.handlePress}
-         activeOpacity={0.7}
-         style={styles.container}
-       >
-         {/*The main image of the detail Screen*/}
-         {this.displayMainImage_local()}
+          {/*DEV_NOTE: match % hardcoded temporarily*/}
+          <Text style={styles.infoText}>98% match</Text>
 
-         {/*venue info container*/}
-         {/*uses linear gradient component*/}
-         <LinearGradient colors={['transparent', 'black']} style={styles.venueInfoContainer}>
-           <Text style={styles.venueName}>
-             {this.props.store.name}
-           </Text>
-           <View style={styles.venueInfoRow}>
-             <Text style={styles.infoText}>
-               1.5 Km
-             </Text>
-             <Text style={styles.infoText}>
-               98% match
-             </Text>
-             {this.displayRatingStars()}
-             <View style={styles.inlineGenderIconContainer}>
-               <Image
-                 style={styles.cardGenderIcon}
-                 source={require('../images/man-icon-card.png')}
-               />
-               <Text style={[styles.genderNumber, styles.genderNumberMan]}>
-                 {this.props.store.people.MenAvg}
-               </Text>
-               <Image
-                 style={styles.cardGenderIcon}
-                 source={require('../images/woman-icon-card.png')}
-               />
-               <Text style={styles.genderNumber}>
-                 {this.props.store.people.WomenAvg}
-               </Text>
-             </View>
-           </View>
-         </LinearGradient>
+          {/*venue rating*/}
+          {displayRatingStars()}
 
-       </TouchableOpacity>
-     );
-   }
+          <View style={styles.inlineGenderIconContainer}>
+            {/*number of men at venue*/}
+            <Image style={styles.cardGenderIcon} source={manIcon} />
+            <Text style={[styles.genderNumber, styles.genderNumberMan]}>
+              {props.venue.people.MenAvg}
+            </Text>
 
+            {/*number of women at venue*/}
+            <Image style={styles.cardGenderIcon} source={womanIcon} />
+            <Text style={styles.genderNumber}>
+              {props.venue.people.WomenAvg}
+            </Text>
+          </View>
+        </View>
+      </LinearGradient>
+    </TouchableOpacity>
+  );
 }
+
+// PropTypes
+MapPreview.propTypes = {
+  venue: PropTypes.object.isRequired,
+  onPress: PropTypes.func.isRequired,
+};
