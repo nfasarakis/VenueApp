@@ -1,6 +1,13 @@
 /**
  * Configuration that is used in the Map components.
  */
+/**
+ * STILL NEED TO
+ *  Move app config in seperate folder
+ *  Add Card/width height for /MainTabScreens Visited.js
+ *  Add slider icon sizes for Slider.js and Mutlislider.js
+ */
+
 import {Dimensions} from 'react-native';
 
 type dim = {width: number, height: number};
