@@ -32,7 +32,9 @@ import styles from './style';
 export default class Slider extends Component {
   /**
    * Lifecycle method. Forbids re-renders caused by parent components.
-   * This component never re-renders since it depends on animations.
+   * Everytime the slider passes it's value to the parent via the onSliderValueUpdate()
+   * callback, the parent re-renders, causing the slider to re-render.
+   * This component should never re-render since it depends on animations.
    * Animations and Animated values bypass the react render() method
    * hence, we should never need to update this component
    */
