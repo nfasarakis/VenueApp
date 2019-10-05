@@ -10,14 +10,14 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     // For ease of development, left/right lines are allowed to take a very large width
     // and are then cropped with the overflow property s.t they do not exceed container
-    // This is partically only used during the initialization, since the line width is
-    // then dirrectly contoled in the panHandler for the icon
+    // This is practically only used during the initialization, since the line width is
+    // then dirrectly controled in the panHandler for the icon
     overflow: 'hidden',
   },
   // The icon used for slider
   sliderIcon: {
     width: 20,
-    height: 20,
+    height: 20, // <-- Should Add to config
     position: 'relative',
     // Make icons overlap lines
     zIndex: 1,
