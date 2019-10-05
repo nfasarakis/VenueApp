@@ -26,7 +26,6 @@ export default function LoadingIcon() {
    * Set's up a looping animation when component mounts
    */
   useEffect(() => {
-    console.warn('Animation');
     /**
      * Initiates a looping sequential animation of
      * the opacity of the dots to mimic a loading animation.
