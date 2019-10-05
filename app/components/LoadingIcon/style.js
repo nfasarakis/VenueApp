@@ -17,8 +17,8 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     marginLeft: 2,
     marginRight: 2,
-    backgroundColor: '#6BA7EC'
-  }
+    backgroundColor: '#6BA7EC',
+  },
 });
 
 export default styles;
