@@ -12,7 +12,7 @@ import {
 } from '../../config/config.js';
 import styles from './style';
 
-// Possible labels for buttons above flatlist. Value depends on tab
+// Possible labels for buttons above flatlist. Selected value depends on props.tab
 const buttonLabels = {
   Discover: {
     leftBtn: 'DISCOVER NEW VENUES',
@@ -32,26 +32,34 @@ const buttonLabels = {
   },
 };
 
-MapDisplay.propTypes = {
-  // A JSON formated array of stores/venues to show on map if the left button is active
-  primaryVenues: PropTypes.array.isRequired,
-  // A JSON formated array of stores/venues to show on map if the right button is active
-  secondaryVenues: PropTypes.array.isRequired,
-  // String storing the id of the currently selected tab (Discover, Visited, Favorites or Offers)
-  tab: PropTypes.string.isRequired,
-  // Callback for press events on TouchableOpacity component representing a StorePreview
-  onVenuePress: PropTypes.func.isRequired,
-};
-
+/**
+ * MapDisplay Component: Component containing a map & markers corresp. to venues
+ *                       received as props.
+ *                       MapDisplay shows either the primaryVenues or secondaryVenues
+ *                       it receives as props, similar to how MainTabScreens display
+ *                       two types of venues in the doubleVenueList
+ *
+ * The MapDisplay Component receives the following props
+ *  @param {object} primaryVenues A JSON formated array of stores/venues to show
+ *                                the on map if the left button is active
+ *  @param {object} secondaryVenues A JSON formated array of stores/venues to show
+ *                                  the on map if the right button is active
+ *  @param {string} tab String storing the id of the currently selected tab
+ *                      i.e Discover, Visited, Favorites or Offers.
+ *                      Used to generate the button labels.
+ *  @param {function} onVenuePress Callback for press events when a venue card is pressed.
+ *
+ * @return {[View]} A styled view containg the item's name, price & description
+ */
 export default function MapDisplay(props) {
-  // Stores the venues the component is displaying
-  // MapDisplay shows either the primaryVenues or secondaryVenues it receives as props.
+  // Stores the venues the component is displaying, primary or secondary, rececived via props.
   // DEV_NOTE:
   // Would it be cleaner if I used a boolean for this instead, avoiding the props->state antipattern?
   const [activeVenues, setActiveVenues] = useState(props.primaryVenues);
 
   // Value in the [0, activeVenues.length] range
-  // Index corresponding to venue focused in Flatlist
+  // Index corresponding to venue "focused" in Flatlist
+  // A venue is focused if it's in the middle of the screen.
   const [index, setIndex] = useState(0);
 
   // Reference to map component <MapView> and <FlatList> components in render() method
@@ -257,3 +265,11 @@ export default function MapDisplay(props) {
     </View>
   );
 }
+
+// PropTypes
+MapDisplay.propTypes = {
+  primaryVenues: PropTypes.array.isRequired,
+  secondaryVenues: PropTypes.array.isRequired,
+  tab: PropTypes.string.isRequired,
+  onVenuePress: PropTypes.func.isRequired,
+};
