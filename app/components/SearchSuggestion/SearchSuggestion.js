@@ -1,42 +1,45 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {View, TouchableOpacity, Image, Text} from 'react-native';
 import PropTypes from 'prop-types';
 import styles from './style';
+// Local images used in SearchSuggestion component
+import searchIcon from '../images/locSearchIcon.png';
 
-export default class SearchSuggestion extends Component {
-
-  static propTypes = {
-    // String specifying name of area in SearchSuggestion
-    name: PropTypes.string.isRequired,
-    // Number specifying number of venues in area
-    // SHOULD COME FROM A SERVER SEARCH
-    numVenues: PropTypes.number.isRequired,
-    // Callback for press events on Search SearchSuggestion
-    onSuggestionPress: PropTypes.func.isRequired,
-  }
-
+/**
+ * SearchSuggestion Component: A clickable Component containing the name of a suggested
+ *                             search area & the number of venues in that area
+ *                             Executes callback passed in as prop when pressed
+ *
+ * The SearchSuggestion Component receives the following props
+ *  @param {string} name Suggested search area
+ *  @param {number} numVenues Number of venues within suggested search area
+ *  @param {function} onSuggestionPress Callback for press events on SearchSuggestion
+ *
+ * @return {<TouchableOpacity>} TouchableOpacity containg a suggested are name &
+ *                              number of venues contained within that area.
+ */
+export default function SearchSuggestion(props) {
   /**
-   *
-   * @return {[View]}
+   * @return {<TouchableOpacity>}
    */
-  render() {
-    return (
-      <TouchableOpacity
-        style={styles.container}
-        onPress={this.props.onSuggestionPress}
-      >
-        <View style={styles.titleContainer}>
-          <View style={styles.areaContainer}>
-            <Image
-              style={styles.areaSearchIcon}
-              source={require('../images/locSearchIcon.png')}
-            />
-            <Text style={styles.area}> {this.props.name} </Text>
-          </View>
-          <Text style={styles.numVenues}> {this.props.numVenues} venues </Text>
+  return (
+    <TouchableOpacity
+      style={styles.container}
+      onPress={props.onSuggestionPress}>
+      <View style={styles.titleContainer}>
+        <View style={styles.areaContainer}>
+          <Image style={styles.areaSearchIcon} source={searchIcon} />
+          <Text style={styles.area}> {props.name} </Text>
         </View>
-        <View style={styles.horLine}></View>
-      </TouchableOpacity>
-    );
-  }
+        <Text style={styles.numVenues}> {props.numVenues} venues </Text>
+      </View>
+      <View style={styles.horLine} />
+    </TouchableOpacity>
+  );
 }
+
+SearchSuggestion.propTypes = {
+  name: PropTypes.string.isRequired,
+  numVenues: PropTypes.number.isRequired,
+  onSuggestionPress: PropTypes.func.isRequired,
+};
