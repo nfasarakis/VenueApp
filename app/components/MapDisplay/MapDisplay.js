@@ -33,8 +33,8 @@ const buttonLabels = {
 };
 
 /**
- * MapDisplay Component: Component containing a map & markers corresp. to venues
- *                       received as props.
+ * MapDisplay Component: Component containing a map w/ markers and flatList corresp.
+ *                       to venues received as props
  *                       MapDisplay shows either the primaryVenues or secondaryVenues
  *                       it receives as props, similar to how MainTabScreens display
  *                       two types of venues in the doubleVenueList
@@ -49,7 +49,7 @@ const buttonLabels = {
  *                      Used to generate the button labels.
  *  @param {function} onVenuePress Callback for press events when a venue card is pressed.
  *
- * @return {[View]} A styled view containg the item's name, price & description
+ * @return {<View>} A map with markers and a flatList depicting venues received as props.
  */
 export default function MapDisplay(props) {
   // Stores the venues the component is displaying, primary or secondary, rececived via props.
